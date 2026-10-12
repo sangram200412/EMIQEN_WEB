@@ -27,31 +27,46 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
   if (!isOpen) return null;
 
+  const formatNameFromEmail = (emailStr: string): string => {
+    if (!emailStr) return 'User';
+    const localPart = emailStr.split('@')[0];
+    return localPart
+      .split(/[._-]/)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(' ');
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     setTimeout(() => {
       setIsLoading(false);
+      const displayName = email ? formatNameFromEmail(email) : 'Member';
       onLoginSuccess({
-        name: email ? email.split('@')[0] : 'Sangram Sethi',
-        email: email || 'sangram@emiqen.com',
-        role: 'AI Product Architect',
-        avatar: 'SS',
+        name: displayName,
+        email: email || 'user@emiqen.com',
+        role: 'Verified Researcher',
+        avatar: displayName
+          .split(' ')
+          .map((n) => n[0])
+          .join('')
+          .slice(0, 2)
+          .toUpperCase() || 'EM',
       });
       onClose();
-    }, 600);
+    }, 500);
   };
 
-  const handleQuickLogin = (name: string, emailAddr: string, role: string) => {
+  const handleGuestLogin = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
       onLoginSuccess({
-        name,
-        email: emailAddr,
-        role,
-        avatar: name.split(' ').map((n) => n[0]).join('').slice(0, 2),
+        name: 'Guest Researcher',
+        email: 'guest@emiqen.com',
+        role: 'Guest Access',
+        avatar: 'GR',
       });
       onClose();
     }, 400);
@@ -90,46 +105,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             </div>
           </div>
 
-          {/* Quick 1-Click Login Options */}
-          <div className="space-y-2 mb-5">
-            <button
-              type="button"
-              onClick={() => handleQuickLogin('Sangram Sethi', 'sangram@emiqen.com', 'Lead AI Engineer')}
-              className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-[#48E5F5]/10 to-[#9A83FF]/10 hover:from-[#48E5F5]/20 hover:to-[#9A83FF]/20 border border-[#48E5F5]/30 text-xs font-mono text-[#F4F7FB] transition-all cursor-pointer group"
-            >
-              <div className="flex items-center gap-2.5">
-                <span className="w-6 h-6 rounded-lg bg-[#48E5F5] text-[#080B10] flex items-center justify-center font-bold text-[10px]">
-                  SS
-                </span>
-                <div className="text-left">
-                  <p className="font-semibold text-[#F4F7FB]">Sangram Sethi</p>
-                  <p className="text-[10px] text-[#A4ADBB]">sangram@emiqen.com (Admin)</p>
-                </div>
-              </div>
-              <span className="text-[10px] font-semibold text-[#48E5F5] group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                Continue <ArrowRight className="w-3 h-3" />
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleQuickLogin('AI Researcher', 'research@emiqen.com', 'Guest Researcher')}
-              className="w-full flex items-center justify-between p-2.5 rounded-xl bg-[#080B10]/60 hover:bg-[#080B10] border border-white/10 text-xs font-mono text-[#A4ADBB] hover:text-[#F4F7FB] transition-colors cursor-pointer"
-            >
-              <div className="flex items-center gap-2">
-                <UserCheck className="w-4 h-4 text-[#9A83FF]" />
-                <span>Quick Guest AI Login</span>
-              </div>
-              <span className="text-[10px] text-[#9A83FF]">Instant Access</span>
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2 my-4">
-            <div className="flex-1 border-t border-white/10" />
-            <span className="text-[10px] font-mono text-[#A4ADBB] uppercase">or sign in with email</span>
-            <div className="flex-1 border-t border-white/10" />
-          </div>
-
           {/* Email / Password Form */}
           <form onSubmit={handleSubmit} className="space-y-3.5">
             <div>
@@ -143,7 +118,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@company.com"
-                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#080B10] border border-white/10 focus:border-[#48E5F5] text-xs text-[#F4F7FB] placeholder:text-[#A4ADBB]/40 focus:outline-none transition-colors"
+                  required
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#080B10] dark:bg-[#080B10] light:bg-slate-50 border border-white/10 light:border-slate-300 focus:border-[#48E5F5] text-xs text-[#F4F7FB] light:text-slate-800 placeholder:text-[#A4ADBB]/40 focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -159,7 +135,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#080B10] border border-white/10 focus:border-[#48E5F5] text-xs text-[#F4F7FB] placeholder:text-[#A4ADBB]/40 focus:outline-none transition-colors"
+                  required
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#080B10] dark:bg-[#080B10] light:bg-slate-50 border border-white/10 light:border-slate-300 focus:border-[#48E5F5] text-xs text-[#F4F7FB] light:text-slate-800 placeholder:text-[#A4ADBB]/40 focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -182,6 +159,25 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               )}
             </button>
           </form>
+
+          <div className="flex items-center gap-2 my-4">
+            <div className="flex-1 border-t border-white/10" />
+            <span className="text-[10px] font-mono text-[#A4ADBB] uppercase">or explore as guest</span>
+            <div className="flex-1 border-t border-white/10" />
+          </div>
+
+          {/* Guest Access Option */}
+          <button
+            type="button"
+            onClick={handleGuestLogin}
+            className="w-full flex items-center justify-between p-2.5 rounded-xl bg-[#080B10]/60 dark:bg-[#080B10]/60 light:bg-slate-100 hover:bg-[#080B10] light:hover:bg-slate-200 border border-white/10 light:border-slate-300 text-xs font-mono text-[#A4ADBB] hover:text-[#F4F7FB] light:text-slate-700 light:hover:text-slate-900 transition-colors cursor-pointer"
+          >
+            <div className="flex items-center gap-2">
+              <UserCheck className="w-4 h-4 text-[#48E5F5]" />
+              <span>Instant Guest Researcher Access</span>
+            </div>
+            <span className="text-[10px] text-[#48E5F5]">Try Demo</span>
+          </button>
 
           {/* Bottom Security Note */}
           <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-center gap-1.5 text-[10px] font-mono text-[#A4ADBB]">

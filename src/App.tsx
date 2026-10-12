@@ -31,7 +31,12 @@ export function App() {
     const saved = localStorage.getItem('emiqen-user');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (parsed?.name === 'Sangram Sethi') {
+          localStorage.removeItem('emiqen-user');
+          return null;
+        }
+        return parsed;
       } catch {}
     }
     return null;
