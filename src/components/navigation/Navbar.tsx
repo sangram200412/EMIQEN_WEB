@@ -17,7 +17,7 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({
   onScrollToSection,
-  backendConnected,
+  backendConnected: _backendConnected,
   onOpenLogin,
   user,
   onOpenChat,
@@ -34,6 +34,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { label: 'India Context', id: 'india-aware' },
     { label: 'SLM Core', id: 'model-intelligence' },
     { label: 'Architecture', id: 'architecture' },
+    { label: 'Contact', id: 'contact' },
   ];
 
   const handleNavClick = (id: string) => {
@@ -43,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#080B10]/90 backdrop-blur-xl border-b border-slate-200 dark:border-white/[0.08] shadow-sm dark:shadow-none transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between">
         
         {/* Brand Identity with Logo */}
         <a
@@ -58,20 +59,20 @@ export const Navbar: React.FC<NavbarProps> = ({
         </a>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center gap-6">
+        <nav className="hidden lg:flex items-center gap-3 xl:gap-4 2xl:gap-6">
           {navLinks.map((link) => (
             <button
               key={link.id}
               onClick={() => handleNavClick(link.id)}
-              className="text-xs font-medium text-slate-600 hover:text-slate-900 dark:text-[#A4ADBB] dark:hover:text-[#F4F7FB] transition-colors cursor-pointer"
+              className="text-[11px] xl:text-xs font-medium text-slate-600 hover:text-slate-900 dark:text-[#A4ADBB] dark:hover:text-[#F4F7FB] transition-colors cursor-pointer whitespace-nowrap"
             >
               {link.label}
             </button>
           ))}
         </nav>
 
-        {/* Right Controls: Theme Selector + Status + Auth */}
-        <div className="hidden sm:flex items-center gap-3">
+        {/* Right Controls: Theme Selector + Auth */}
+        <div className="hidden sm:flex items-center gap-2.5 sm:gap-3">
           
           {/* Theme Selector (Dark, Light, Default) */}
           <ThemeSelector
@@ -79,17 +80,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             onThemeChange={onThemeChange}
             variant="compact"
           />
-
-          {/* Backend Status Pill */}
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 dark:bg-[#0D1420] border border-slate-200 dark:border-white/10 text-[10px] font-mono">
-            <span className="relative flex h-2 w-2">
-              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${backendConnected ? 'bg-emerald-400' : 'bg-[#48E5F5]'}`} />
-              <span className={`relative inline-flex rounded-full h-2 w-2 ${backendConnected ? 'bg-emerald-400' : 'bg-[#48E5F5]'}`} />
-            </span>
-            <span className="text-slate-600 dark:text-[#A4ADBB]">
-              {backendConnected ? 'Connected' : 'Demo SLM'}
-            </span>
-          </div>
 
           {/* Login / Chat Workspace Button */}
           {user ? (

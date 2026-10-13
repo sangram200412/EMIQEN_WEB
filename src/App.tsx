@@ -9,12 +9,14 @@ import { IndiaAwareSection } from './components/india-aware/IndiaAwareSection';
 import { ModelExplorer } from './components/model-explorer/ModelExplorer';
 import { Capabilities } from './components/capabilities/Capabilities';
 import { ArchitectureExplorer } from './components/architecture/ArchitectureExplorer';
+import { ContactUs } from './components/contact/ContactUs';
 import { FinalCta } from './components/cta/FinalCta';
 import { Footer } from './components/footer/Footer';
 import { SystemConsole } from './components/system-status/SystemConsole';
 import { LoginModal } from './components/auth/LoginModal';
 import type { UserProfile } from './components/auth/LoginModal';
 import { ChatWorkspace } from './components/chat/ChatWorkspace';
+import { AdvancedBackground } from './components/common/AdvancedBackground';
 import { useTheme } from './hooks/useTheme';
 import { audioService } from './services/audio';
 import { apiService } from './services/api';
@@ -100,8 +102,11 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080B10] dark:bg-[#080B10] light:bg-[#F8FAFC] text-[#F4F7FB] dark:text-[#F4F7FB] light:text-[#0F172A] selection:bg-[#48E5F5]/20 selection:text-[#48E5F5] font-sans antialiased relative transition-colors">
+    <div className="min-h-screen bg-[#080B10] dark:bg-[#080B10] light:bg-[#F8FAFC] text-[#F4F7FB] dark:text-[#F4F7FB] light:text-[#0F172A] selection:bg-[#48E5F5]/20 selection:text-[#48E5F5] font-sans antialiased relative transition-colors overflow-x-hidden">
       
+      {/* Advanced Ambient Cybernetic Background */}
+      <AdvancedBackground />
+
       {/* Navigation Header */}
       <Navbar
         onScrollToSection={scrollToSection}
@@ -148,6 +153,9 @@ export function App() {
 
         {/* End-to-End System Architecture Explorer */}
         <ArchitectureExplorer backendConnected={backendConnected} />
+
+        {/* Enterprise & Developer Contact Section */}
+        <ContactUs />
 
         {/* Dramatic Closing CTA */}
         <FinalCta

@@ -93,6 +93,14 @@ export const Footer: React.FC<FooterProps> = ({ onScrollToSection }) => {
                 End-to-End System Architecture
               </button>
             </li>
+            <li>
+              <button
+                onClick={() => onScrollToSection('contact')}
+                className="hover:text-[#48E5F5] transition-colors cursor-pointer"
+              >
+                Contact & Enterprise Inquiries
+              </button>
+            </li>
           </ul>
         </div>
 
