@@ -7,7 +7,6 @@ import {
   User,
   CheckCircle2,
   Sparkles,
-  MapPin,
   Clock,
   ShieldCheck,
 } from 'lucide-react';
@@ -270,16 +269,11 @@ export const ContactUs: React.FC = () => {
               </div>
             </div>
 
-            {/* SLA, Location & Privacy Notes */}
+            {/* SLA & Privacy Notes */}
             <div className="p-6 sm:p-7 rounded-3xl glass-panel border border-slate-200 dark:border-white/10 space-y-4 shadow-lg dark:shadow-xl">
               <div className="flex items-center gap-2 text-xs font-mono text-slate-600 dark:text-[#A4ADBB]">
                 <Clock className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                 <span>Response SLA: Technical review within 24 hours</span>
-              </div>
-
-              <div className="flex items-center gap-2 text-xs font-mono text-slate-600 dark:text-[#A4ADBB]">
-                <MapPin className="w-4 h-4 text-[#0284C7] dark:text-[#48E5F5]" />
-                <span>Innovation Labs: Bengaluru, Karnataka, India</span>
               </div>
 
               <div className="pt-2 border-t border-slate-200 dark:border-white/5 flex items-start gap-2.5 text-xs text-slate-500 dark:text-[#A4ADBB] leading-relaxed font-mono text-[11px]">
