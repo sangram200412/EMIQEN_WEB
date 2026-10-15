@@ -556,7 +556,7 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder={isRecording ? 'Listening to voice stream...' : 'Ask EMIQEN-SLM or tap the mic to speak...'}
-                className="flex-1 bg-[#080B10] light:bg-slate-100 border border-white/10 light:border-slate-300 rounded-xl px-4 py-3 text-xs sm:text-sm text-[#F4F7FB] light:text-slate-900 placeholder:text-[#A4ADBB]/50 focus:outline-none focus:border-[#48E5F5] transition-colors"
+                className="flex-1 bg-white dark:bg-[#080B10] border border-slate-300 dark:border-white/10 rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-900 dark:text-[#F4F7FB] placeholder:text-slate-400 dark:placeholder:text-[#A4ADBB]/50 focus:outline-none focus:border-[#0284C7] dark:focus:border-[#48E5F5] transition-colors"
               />
 
               {/* Send Button */}

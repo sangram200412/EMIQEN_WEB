@@ -79,7 +79,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
-          className="glass-panel max-w-md w-full rounded-2xl p-6 sm:p-8 border border-white/15 relative overflow-hidden text-left shadow-2xl"
+          className="glass-panel max-w-md w-full rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-white/15 relative overflow-hidden text-left shadow-2xl"
         >
           {/* Ambient Glow */}
           <div className="absolute top-0 right-0 w-48 h-48 bg-[#48E5F5]/10 rounded-full blur-3xl pointer-events-none" />
@@ -87,7 +87,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-[#A4ADBB] hover:text-[#F4F7FB] transition-colors cursor-pointer"
+            className="absolute top-5 right-5 p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-slate-500 hover:text-slate-900 dark:text-[#A4ADBB] dark:hover:text-[#F4F7FB] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -96,10 +96,10 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           <div className="flex flex-col items-center text-center space-y-3 mb-6">
             <BrandLogo size="lg" />
             <div>
-              <h3 className="text-xl font-bold text-[#F4F7FB]">
-                Sign In to <span className="text-[#48E5F5]">EMIQEN</span> Console
+              <h3 className="text-xl font-bold text-slate-900 dark:text-[#F4F7FB]">
+                Sign In to <span className="text-[#0284C7] dark:text-[#48E5F5]">EMIQEN</span> Console
               </h3>
-              <p className="text-xs text-[#A4ADBB] mt-1">
+              <p className="text-xs text-slate-500 dark:text-[#A4ADBB] mt-1">
                 Access your personalized Small Language Model voice chat workspace
               </p>
             </div>
@@ -108,35 +108,35 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           {/* Email / Password Form */}
           <form onSubmit={handleSubmit} className="space-y-3.5">
             <div>
-              <label className="text-[11px] font-mono text-[#A4ADBB] block mb-1">
+              <label className="text-[11px] font-mono text-slate-700 dark:text-[#A4ADBB] block mb-1 font-medium">
                 Email Address
               </label>
               <div className="relative flex items-center">
-                <Mail className="w-4 h-4 text-[#A4ADBB] absolute left-3 pointer-events-none" />
+                <Mail className="w-4 h-4 text-slate-400 dark:text-[#A4ADBB] absolute left-3 pointer-events-none" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@company.com"
                   required
-                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#080B10] dark:bg-[#080B10] light:bg-slate-50 border border-white/10 light:border-slate-300 focus:border-[#48E5F5] text-xs text-[#F4F7FB] light:text-slate-800 placeholder:text-[#A4ADBB]/40 focus:outline-none transition-colors"
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white dark:bg-[#080B10] border border-slate-300 dark:border-white/10 focus:border-[#0284C7] dark:focus:border-[#48E5F5] text-xs text-slate-900 dark:text-[#F4F7FB] placeholder:text-slate-400 dark:placeholder:text-[#A4ADBB]/40 focus:outline-none transition-colors"
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-[11px] font-mono text-[#A4ADBB] block mb-1">
+              <label className="text-[11px] font-mono text-slate-700 dark:text-[#A4ADBB] block mb-1 font-medium">
                 Password
               </label>
               <div className="relative flex items-center">
-                <Lock className="w-4 h-4 text-[#A4ADBB] absolute left-3 pointer-events-none" />
+                <Lock className="w-4 h-4 text-slate-400 dark:text-[#A4ADBB] absolute left-3 pointer-events-none" />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
                   required
-                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#080B10] dark:bg-[#080B10] light:bg-slate-50 border border-white/10 light:border-slate-300 focus:border-[#48E5F5] text-xs text-[#F4F7FB] light:text-slate-800 placeholder:text-[#A4ADBB]/40 focus:outline-none transition-colors"
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white dark:bg-[#080B10] border border-slate-300 dark:border-white/10 focus:border-[#0284C7] dark:focus:border-[#48E5F5] text-xs text-slate-900 dark:text-[#F4F7FB] placeholder:text-slate-400 dark:placeholder:text-[#A4ADBB]/40 focus:outline-none transition-colors"
                 />
               </div>
             </div>
