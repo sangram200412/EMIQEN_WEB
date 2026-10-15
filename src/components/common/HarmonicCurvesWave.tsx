@@ -5,7 +5,7 @@ interface HarmonicCurvesWaveProps {
   density?: 'compact' | 'normal' | 'rich';
   speed?: number; // Organic fluid speed (default ~0.0035 for slow, elegant movement)
   interactive?: boolean;
-  opacity?: number; // Default 0.35 (30-40% opacity range)
+  opacity?: number; // Default 0.22 (20-25% opacity range)
 }
 
 export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
@@ -13,7 +13,7 @@ export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
   density = 'normal',
   speed = 0.0035,
   interactive = true,
-  opacity = 0.35,
+  opacity = 0.22,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   

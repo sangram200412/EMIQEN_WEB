@@ -83,12 +83,12 @@ export const AdvancedBackground: React.FC = () => {
         className="absolute inset-0 w-full h-full opacity-60 dark:opacity-60 light:opacity-30"
       />
 
-      {/* 4. Realistic Fluid Harmonic Curves Wave (Slow fluid loop, 35% opacity across all pages) */}
+      {/* 4. Realistic Fluid Harmonic Curves Wave (Slow fluid loop, 20-25% opacity across all pages) */}
       <HarmonicCurvesWave
         className="absolute inset-0 w-full h-full"
         density="normal"
         speed={0.0035}
-        opacity={0.35}
+        opacity={0.22}
         interactive={true}
       />
 
