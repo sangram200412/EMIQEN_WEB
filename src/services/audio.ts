@@ -59,15 +59,33 @@ export class AudioService {
 
   stopMicrophone() {
     if (this.mediaStream) {
-      this.mediaStream.getTracks().forEach((track) => track.stop());
+      this.mediaStream.getTracks().forEach((track) => {
+        try {
+          track.enabled = false;
+          track.stop();
+        } catch {}
+      });
       this.mediaStream = null;
     }
+    if (this.sourceNode) {
+      try {
+        this.sourceNode.disconnect();
+      } catch {}
+      this.sourceNode = null;
+    }
+    if (this.analyser) {
+      try {
+        this.analyser.disconnect();
+      } catch {}
+      this.analyser = null;
+    }
     if (this.audioContext && this.audioContext.state !== 'closed') {
-      this.audioContext.close().catch(() => {});
+      try {
+        this.audioContext.close().catch(() => {});
+      } catch {}
       this.audioContext = null;
     }
-    this.analyser = null;
-    this.sourceNode = null;
+    this.dataArray = null;
   }
 
   speak(text: string, onEnd?: () => void) {

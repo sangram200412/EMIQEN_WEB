@@ -84,10 +84,17 @@ html.light .glass-panel {
    ------------------------------------------------------------- */
 
 /* DARK THEME (Elevated Light-Dark Slate) */
-html.dark .bg-theme-base,
 html.dark section,
-html.dark .bg-\[\#080B10\],
-html.dark .bg-\[\#0F172A\] {
+html.dark section.bg-\[\#080B10\],
+html.dark section.bg-\[\#0D1420\]\/40,
+html.dark section.bg-\[\#0D1420\]\/50,
+html.dark section.bg-\[\#0D1420\]\/30 {
+  background-color: transparent !important;
+}
+
+html.dark .bg-theme-base,
+html.dark div.bg-\[\#080B10\],
+html.dark div.bg-\[\#0F172A\] {
   background-color: #0F172A !important;
 }
 
@@ -135,10 +142,18 @@ html.dark header {
 }
 
 /* LIGHT THEME (Crisp, High-Readability Off-White) */
-html.light .bg-theme-base,
 html.light section,
-html.light .bg-\[\#080B10\],
-html.light .bg-\[\#0F172A\] {
+html.light section.bg-\[\#080B10\],
+html.light section.bg-\[\#F8FAFC\],
+html.light section.bg-\[\#0D1420\]\/40,
+html.light section.bg-\[\#0D1420\]\/50,
+html.light section.bg-\[\#0D1420\]\/30 {
+  background-color: transparent !important;
+}
+
+html.light .bg-theme-base,
+html.light div.bg-\[\#080B10\],
+html.light div.bg-\[\#0F172A\] {
   background-color: #F8FAFC !important;
 }
 

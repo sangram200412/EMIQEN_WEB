@@ -128,7 +128,7 @@ export function App() {
       />
 
       {/* Main Content Sections */}
-      <main>
+      <main className="relative z-10">
         {/* Hero with Interactive 3D Neural Core */}
         <Hero
           systemState={systemState}

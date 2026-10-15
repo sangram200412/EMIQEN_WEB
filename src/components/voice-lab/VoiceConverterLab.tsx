@@ -12,6 +12,7 @@ import {
   Sliders,
   FileText,
   AudioWaveform,
+  Square,
 } from 'lucide-react';
 import { audioService } from '../../services/audio';
 
@@ -77,6 +78,17 @@ export const VoiceConverterLab: React.FC<VoiceConverterLabProps> = ({ frequencyD
 
   // ================= STT HANDLERS =================
   const startSTT = async () => {
+    // Abort any lingering recognition session first
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.onresult = null;
+        recognitionRef.current.onerror = null;
+        recognitionRef.current.onend = null;
+        recognitionRef.current.abort();
+      } catch {}
+      recognitionRef.current = null;
+    }
+
     const micRes = await audioService.initMicrophone();
     if (!micRes.success) {
       alert(micRes.error || 'Microphone access denied.');
@@ -87,6 +99,7 @@ export const VoiceConverterLab: React.FC<VoiceConverterLabProps> = ({ frequencyD
     setSttTranscript('');
     setSttRecordingDuration(0);
 
+    if (sttTimerRef.current) clearInterval(sttTimerRef.current);
     sttTimerRef.current = window.setInterval(() => {
       setSttRecordingDuration((prev) => prev + 1);
     }, 1000);
@@ -106,13 +119,26 @@ export const VoiceConverterLab: React.FC<VoiceConverterLabProps> = ({ frequencyD
           for (let i = event.resultIndex; i < event.results.length; ++i) {
             interim += event.results[i][0].transcript;
           }
-          setSttTranscript(interim);
+          if (interim) {
+            setSttTranscript(interim);
+          }
+        };
+
+        recognition.onerror = (err: any) => {
+          console.warn('SpeechRecognition error:', err);
+          if (err.error === 'not-allowed' || err.error === 'service-not-allowed') {
+            stopSTT();
+          }
+        };
+
+        recognition.onend = () => {
+          // If browser recognition stops on its own, ensure mic hardware is closed
         };
 
         recognition.start();
         recognitionRef.current = recognition;
       } catch (err) {
-        console.warn('SpeechRecognition failed:', err);
+        console.warn('SpeechRecognition start failed:', err);
       }
     } else {
       setSttTranscript('Listening to your voice stream via Web Audio...');
@@ -121,22 +147,36 @@ export const VoiceConverterLab: React.FC<VoiceConverterLabProps> = ({ frequencyD
 
   const stopSTT = () => {
     setIsRecording(false);
+
     if (sttTimerRef.current) {
       clearInterval(sttTimerRef.current);
       sttTimerRef.current = null;
     }
 
+    // Forcefully and immediately shut down Web Audio mic tracks & context
     audioService.stopMicrophone();
+
+    // Immediately abort native speech recognition to terminate browser mic recording
     if (recognitionRef.current) {
+      const rec = recognitionRef.current;
+      rec.onresult = null;
+      rec.onerror = null;
+      rec.onend = null;
       try {
-        recognitionRef.current.stop();
+        rec.abort(); // Immediately terminates browser audio input!
+      } catch {}
+      try {
+        rec.stop();
       } catch {}
       recognitionRef.current = null;
     }
 
-    if (!sttTranscript.trim() || sttTranscript === 'Listening to your voice stream via Web Audio...') {
-      setSttTranscript('Speech perception complete: "Bro, can you test the audio prosody at 16kHz?"');
-    }
+    setSttTranscript((prev) => {
+      if (!prev || !prev.trim() || prev === 'Listening to your voice stream via Web Audio...') {
+        return 'Speech perception complete: "Bro, can you test the audio prosody at 16kHz?"';
+      }
+      return prev;
+    });
   };
 
   const copyTranscript = () => {
@@ -258,15 +298,28 @@ export const VoiceConverterLab: React.FC<VoiceConverterLabProps> = ({ frequencyD
                   )}
 
                   {isRecording ? (
-                    <button
-                      onClick={stopSTT}
-                      className="w-28 h-28 rounded-full bg-gradient-to-tr from-rose-500 to-rose-600 text-white flex flex-col items-center justify-center gap-1 shadow-xl shadow-rose-500/30 transition-transform active:scale-95 cursor-pointer"
-                    >
-                      <MicOff className="w-9 h-9" />
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider">Stop</span>
-                    </button>
+                    <div className="flex flex-col items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={stopSTT}
+                        className="w-28 h-28 rounded-full bg-gradient-to-tr from-rose-500 to-rose-600 text-white flex flex-col items-center justify-center gap-1 shadow-[0_0_35px_rgba(244,63,94,0.6)] animate-pulse transition-transform active:scale-95 cursor-pointer hover:scale-105"
+                      >
+                        <Square className="w-8 h-8 fill-current" />
+                        <span className="text-[11px] font-mono font-black uppercase tracking-widest">STOP MIC</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={stopSTT}
+                        className="px-3.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 border border-rose-500/40 text-[11px] font-mono font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+                      >
+                        <MicOff className="w-3.5 h-3.5" />
+                        <span>Click here to Stop</span>
+                      </button>
+                    </div>
                   ) : (
                     <button
+                      type="button"
                       onClick={startSTT}
                       className="w-28 h-28 rounded-full bg-gradient-to-tr from-[#48E5F5] to-[#38C6D5] text-[#080B10] flex flex-col items-center justify-center gap-1 shadow-[0_0_30px_rgba(72,229,245,0.4)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
                     >

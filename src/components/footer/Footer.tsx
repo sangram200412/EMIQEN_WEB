@@ -15,7 +15,7 @@ export const Footer: React.FC<FooterProps> = ({ onScrollToSection }) => {
   };
 
   return (
-    <footer className="border-t border-white/[0.08] bg-[#080B10] text-[#A4ADBB] py-16 px-4 sm:px-6 lg:px-8 relative">
+    <footer className="border-t border-white/[0.08] bg-[#080B10] text-[#A4ADBB] py-16 px-4 sm:px-6 lg:px-8 relative z-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-white/[0.06] text-left">
         
         {/* Brand Column */}

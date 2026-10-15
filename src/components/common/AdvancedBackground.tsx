@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { HarmonicCurvesWave } from './HarmonicCurvesWave';
 
 export const AdvancedBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -66,7 +67,7 @@ export const AdvancedBackground: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden select-none">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none">
       {/* 1. Deep Atmospheric Glowing Mesh Orbs (Dark & Light responsive) */}
       <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[#38BDF8]/16 to-transparent dark:from-[#38BDF8]/16 light:from-[#38BDF8]/14 blur-[130px] animate-pulse-slow" />
       <div className="absolute top-1/4 -right-32 w-[650px] h-[650px] rounded-full bg-gradient-to-bl from-[#A78BFA]/16 to-transparent dark:from-[#A78BFA]/16 light:from-[#8B5CF6]/12 blur-[140px] animate-pulse-slow delay-1000" />
@@ -82,7 +83,16 @@ export const AdvancedBackground: React.FC = () => {
         className="absolute inset-0 w-full h-full opacity-60 dark:opacity-60 light:opacity-30"
       />
 
-      {/* 4. Top Horizon Gradient Light Bar */}
+      {/* 4. Realistic Fluid Harmonic Curves Wave (Slow fluid loop, 35% opacity across all pages) */}
+      <HarmonicCurvesWave
+        className="absolute inset-0 w-full h-full"
+        density="normal"
+        speed={0.0035}
+        opacity={0.35}
+        interactive={true}
+      />
+
+      {/* 5. Top Horizon Gradient Light Bar */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#38BDF8]/50 dark:via-[#38BDF8]/50 light:via-[#0284C7]/30 to-transparent" />
     </div>
   );

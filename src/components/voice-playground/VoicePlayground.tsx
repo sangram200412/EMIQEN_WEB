@@ -187,11 +187,16 @@ export const VoicePlayground: React.FC<VoicePlaygroundProps> = ({
     audioService.stopMicrophone();
 
     if (recognitionRef.current) {
+      const rec = recognitionRef.current;
+      rec.onresult = null;
+      rec.onerror = null;
+      rec.onend = null;
       try {
-        recognitionRef.current.stop();
-      } catch {
-        // ignore
-      }
+        rec.abort();
+      } catch {}
+      try {
+        rec.stop();
+      } catch {}
       recognitionRef.current = null;
     }
 
