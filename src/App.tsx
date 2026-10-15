@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Navbar } from './components/navigation/Navbar';
 import { Hero } from './components/hero/Hero';
 import { AgentPipeline } from './components/agent-pipeline/AgentPipeline';
@@ -28,6 +28,10 @@ export function App() {
   const [frequencyData, setFrequencyData] = useState<number[]>([]);
   const [backendConnected, setBackendConnected] = useState<boolean>(false);
 
+  const handleStateChange = useCallback((st: IntelligenceState) => {
+    setSystemState(st);
+  }, []);
+
   // Authentication & Chat Workspace state
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => {
     const saved = localStorage.getItem('emiqen-user');
@@ -46,16 +50,21 @@ export function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isChatWorkspaceOpen, setIsChatWorkspaceOpen] = useState(false);
 
-  // Poll audio frequencies when active
+  // Poll audio frequencies smoothly when active
   useEffect(() => {
     let animId: number;
-    const updateAudioData = () => {
-      const data = audioService.getFrequencyData();
-      setFrequencyData(data);
+    let lastUpdate = 0;
+    const updateAudioData = (timestamp: number) => {
+      // Throttle frequency polling to ~25fps (every 40ms) to ensure butter-smooth rendering
+      if (timestamp - lastUpdate >= 40) {
+        lastUpdate = timestamp;
+        const data = audioService.getFrequencyData();
+        setFrequencyData(data);
+      }
       animId = requestAnimationFrame(updateAudioData);
     };
 
-    updateAudioData();
+    animId = requestAnimationFrame(updateAudioData);
     return () => cancelAnimationFrame(animId);
   }, []);
 
@@ -102,7 +111,7 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080B10] dark:bg-[#080B10] light:bg-[#F8FAFC] text-[#F4F7FB] dark:text-[#F4F7FB] light:text-[#0F172A] selection:bg-[#48E5F5]/20 selection:text-[#48E5F5] font-sans antialiased relative transition-colors overflow-x-hidden">
+    <div className="min-h-screen bg-theme-base text-theme-base transition-colors duration-300 font-sans antialiased relative overflow-x-hidden selection:bg-[#38BDF8]/20 selection:text-[#38BDF8]">
       
       {/* Advanced Ambient Cybernetic Background */}
       <AdvancedBackground />
@@ -125,6 +134,7 @@ export function App() {
           systemState={systemState}
           onExploreArchitecture={() => scrollToSection('architecture')}
           onExperienceLive={() => scrollToSection('playground')}
+          frequencyData={frequencyData}
         />
 
         {/* 5-Stage Orchestration Experience */}
@@ -132,7 +142,7 @@ export function App() {
 
         {/* Live Voice Playground */}
         <VoicePlayground
-          onStateChange={(st) => setSystemState(st)}
+          onStateChange={handleStateChange}
           frequencyData={frequencyData}
         />
 

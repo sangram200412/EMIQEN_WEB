@@ -5,10 +5,11 @@ export type ThemeMode = 'dark' | 'light' | 'system';
 export function useTheme() {
   const [theme, setTheme] = useState<ThemeMode>(() => {
     const saved = localStorage.getItem('emiqen-theme');
-    if (saved === 'dark' || saved === 'light' || saved === 'system') {
-      return saved;
+    if (saved === 'dark') {
+      return 'dark';
     }
-    return 'system';
+    localStorage.setItem('emiqen-theme', 'dark');
+    return 'dark';
   });
 
   useEffect(() => {

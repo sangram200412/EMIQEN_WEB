@@ -53,17 +53,24 @@ export const VoicePlayground: React.FC<VoicePlaygroundProps> = ({
   const recognitionRef = useRef<any>(null);
 
   // Sync playground state with global intelligence state
+  const lastStateRef = useRef<string | null>(null);
   useEffect(() => {
+    let nextState: IntelligenceState = 'idle';
     if (playgroundState === 'READY' || playgroundState === 'COMPLETED') {
-      onStateChange('idle');
+      nextState = 'idle';
     } else if (playgroundState === 'LISTENING') {
-      onStateChange('listening');
+      nextState = 'listening';
     } else if (playgroundState === 'PROCESSING') {
-      onStateChange('analyzing');
+      nextState = 'analyzing';
     } else if (playgroundState === 'RESPONDING') {
-      onStateChange('generating');
+      nextState = 'generating';
     } else if (playgroundState === 'SPEAKING') {
-      onStateChange('speaking');
+      nextState = 'speaking';
+    }
+
+    if (lastStateRef.current !== nextState) {
+      lastStateRef.current = nextState;
+      onStateChange(nextState);
     }
   }, [playgroundState, onStateChange]);
 

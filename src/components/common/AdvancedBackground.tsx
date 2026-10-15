@@ -68,22 +68,22 @@ export const AdvancedBackground: React.FC = () => {
   return (
     <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden select-none">
       {/* 1. Deep Atmospheric Glowing Mesh Orbs (Dark & Light responsive) */}
-      <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[#48E5F5]/10 to-transparent dark:from-[#48E5F5]/10 light:from-[#38BDF8]/12 blur-[130px] animate-pulse-slow" />
-      <div className="absolute top-1/4 -right-32 w-[650px] h-[650px] rounded-full bg-gradient-to-bl from-[#9A83FF]/10 to-transparent dark:from-[#9A83FF]/10 light:from-[#8B5CF6]/10 blur-[140px] animate-pulse-slow delay-1000" />
-      <div className="absolute bottom-1/4 left-1/3 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-[#38C6D5]/6 to-transparent dark:from-[#38C6D5]/6 light:from-[#0EA5E9]/8 blur-[120px]" />
-      <div className="absolute -bottom-32 right-1/4 w-[550px] h-[550px] rounded-full bg-gradient-to-tl from-[#9A83FF]/8 to-transparent dark:from-[#9A83FF]/8 light:from-[#A855F7]/8 blur-[130px]" />
+      <div className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[#38BDF8]/16 to-transparent dark:from-[#38BDF8]/16 light:from-[#38BDF8]/14 blur-[130px] animate-pulse-slow" />
+      <div className="absolute top-1/4 -right-32 w-[650px] h-[650px] rounded-full bg-gradient-to-bl from-[#A78BFA]/16 to-transparent dark:from-[#A78BFA]/16 light:from-[#8B5CF6]/12 blur-[140px] animate-pulse-slow delay-1000" />
+      <div className="absolute bottom-1/4 left-1/3 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-[#0EA5E9]/10 to-transparent dark:from-[#0EA5E9]/10 light:from-[#0EA5E9]/8 blur-[120px]" />
+      <div className="absolute -bottom-32 right-1/4 w-[550px] h-[550px] rounded-full bg-gradient-to-tl from-[#C084FC]/12 to-transparent dark:from-[#C084FC]/12 light:from-[#A855F7]/8 blur-[130px]" />
 
       {/* 2. Cybernetic Precision Grid Overlay */}
-      <div className="absolute inset-0 bg-advanced-cyber-grid opacity-60 dark:opacity-60 light:opacity-40" />
+      <div className="absolute inset-0 bg-advanced-cyber-grid opacity-70 dark:opacity-70 light:opacity-45" />
 
       {/* 3. Subtle Animated Particle Dust Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full opacity-70 dark:opacity-70 light:opacity-30"
+        className="absolute inset-0 w-full h-full opacity-60 dark:opacity-60 light:opacity-30"
       />
 
       {/* 4. Top Horizon Gradient Light Bar */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#48E5F5]/40 dark:via-[#48E5F5]/40 light:via-[#0284C7]/30 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#38BDF8]/50 dark:via-[#38BDF8]/50 light:via-[#0284C7]/30 to-transparent" />
     </div>
   );
 };

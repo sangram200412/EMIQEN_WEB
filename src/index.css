@@ -1,21 +1,23 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
-    --bg-primary: #080B10;
-    --bg-secondary: #0D1420;
-    --bg-card: #0F1726;
-    --accent-cyan: #48E5F5;
-    --accent-violet: #9A83FF;
-    --text-primary: #F4F7FB;
-    --text-secondary: #A4ADBB;
-    --border-subtle: rgba(255, 255, 255, 0.07);
-    --border-active: rgba(72, 229, 245, 0.35);
+    --bg-primary: #0F172A;
+    --bg-secondary: #1E293B;
+    --bg-card: #1E293B;
+    --accent-cyan: #38BDF8;
+    --accent-violet: #A78BFA;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --border-subtle: rgba(255, 255, 255, 0.1);
+    --border-active: rgba(56, 189, 248, 0.45);
   }
 
   html.dark body {
-    background-color: #080B10;
-    color: #F4F7FB;
+    background-color: #0F172A;
+    color: #F8FAFC;
   }
 
   html.light body {
@@ -42,7 +44,7 @@
 }
 
 html.dark ::-webkit-scrollbar-track {
-  background: #080B10;
+  background: #0F172A;
 }
 
 html.light ::-webkit-scrollbar-track {
@@ -50,7 +52,7 @@ html.light ::-webkit-scrollbar-track {
 }
 
 html.dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 9999px;
 }
 
@@ -61,10 +63,11 @@ html.light ::-webkit-scrollbar-thumb {
 
 /* Glassmorphism panel */
 html.dark .glass-panel {
-  background: rgba(13, 20, 32, 0.75);
+  background: rgba(30, 41, 59, 0.72);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
 }
 
 html.light .glass-panel {
@@ -75,19 +78,85 @@ html.light .glass-panel {
   box-shadow: 0 8px 30px -8px rgba(0, 0, 0, 0.06);
 }
 
-/* Light mode overrides for high readability */
-html.light .bg-\[\#080B10\] {
+/* -------------------------------------------------------------
+   THEME SYNCHRONIZATION OVERRIDES
+   Guarantees 100% coherent theme switching across all views
+   ------------------------------------------------------------- */
+
+/* DARK THEME (Elevated Light-Dark Slate) */
+html.dark .bg-theme-base,
+html.dark section,
+html.dark .bg-\[\#080B10\],
+html.dark .bg-\[\#0F172A\] {
+  background-color: #0F172A !important;
+}
+
+html.dark .bg-\[\#080B10\]\/90,
+html.dark .bg-\[\#080B10\]\/85,
+html.dark .bg-\[\#080B10\]\/80,
+html.dark .bg-\[\#080B10\]\/70,
+html.dark .bg-\[\#080B10\]\/60,
+html.dark .bg-\[\#0F172A\]\/90,
+html.dark .bg-\[\#0F172A\]\/85,
+html.dark .bg-\[\#0F172A\]\/80,
+html.dark .bg-\[\#0F172A\]\/70 {
+  background-color: rgba(15, 23, 42, 0.88) !important;
+}
+
+html.dark .bg-\[\#0D1420\],
+html.dark .bg-\[\#1E293B\] {
+  background-color: #1E293B !important;
+}
+
+html.dark .bg-\[\#0D1420\]\/90,
+html.dark .bg-\[\#0D1420\]\/85,
+html.dark .bg-\[\#0D1420\]\/80,
+html.dark .bg-\[\#0D1420\]\/70,
+html.dark .bg-\[\#0D1420\]\/60,
+html.dark .bg-\[\#0D1420\]\/50,
+html.dark .bg-\[\#0D1420\]\/40 {
+  background-color: rgba(30, 41, 59, 0.85) !important;
+}
+
+html.dark .text-\[\#F4F7FB\],
+html.dark .text-\[\#F8FAFC\] {
+  color: #F8FAFC !important;
+}
+
+html.dark .text-\[\#A4ADBB\],
+html.dark .text-\[\#94A3B8\] {
+  color: #94A3B8 !important;
+}
+
+html.dark header {
+  background-color: rgba(15, 23, 42, 0.92) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* LIGHT THEME (Crisp, High-Readability Off-White) */
+html.light .bg-theme-base,
+html.light section,
+html.light .bg-\[\#080B10\],
+html.light .bg-\[\#0F172A\] {
   background-color: #F8FAFC !important;
 }
 
+html.light .bg-\[\#080B10\]\/90,
+html.light .bg-\[\#080B10\]\/85,
 html.light .bg-\[\#080B10\]\/80,
 html.light .bg-\[\#080B10\]\/70,
-html.light .bg-\[\#080B10\]\/60 {
-  background-color: rgba(255, 255, 255, 0.85) !important;
+html.light .bg-\[\#080B10\]\/60,
+html.light .bg-\[\#0F172A\]\/90,
+html.light .bg-\[\#0F172A\]\/85,
+html.light .bg-\[\#0F172A\]\/80,
+html.light .bg-\[\#0F172A\]\/70 {
+  background-color: rgba(255, 255, 255, 0.9) !important;
 }
 
-html.light .bg-\[\#0D1420\] {
-  background-color: #EDF2F7 !important;
+html.light .bg-\[\#0D1420\],
+html.light .bg-\[\#1E293B\] {
+  background-color: #F1F5F9 !important;
 }
 
 html.light .bg-\[\#0D1420\]\/40,
@@ -99,22 +168,38 @@ html.light .bg-\[\#0D1420\]\/90 {
   background-color: rgba(241, 245, 249, 0.9) !important;
 }
 
-html.light .text-\[\#F4F7FB\] {
+html.light .text-\[\#F4F7FB\],
+html.light .text-\[\#F8FAFC\] {
   color: #0F172A !important;
 }
 
-html.light .text-\[\#A4ADBB\] {
+html.light h1,
+html.light h2,
+html.light h3,
+html.light h4 {
+  color: #0F172A;
+}
+
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4 {
+  color: #F8FAFC;
+}
+
+html.light .text-\[\#A4ADBB\],
+html.light .text-\[\#94A3B8\] {
   color: #475569 !important;
 }
 
 html.light .border-white\/10,
 html.light .border-white\/5,
+html.light .border-white\/15,
 html.light .border-white\/\[0\.08\],
 html.light .border-white\/\[0\.06\] {
   border-color: rgba(15, 23, 42, 0.1) !important;
 }
 
-/* Header & Navigation theme adaptation */
 html.light header {
   background-color: rgba(255, 255, 255, 0.94) !important;
   border-bottom: 1px solid rgba(226, 232, 240, 0.9) !important;
@@ -129,26 +214,21 @@ html.light header nav button:hover {
   color: #0F172A !important;
 }
 
-html.dark header {
-  background-color: rgba(8, 11, 16, 0.9) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-}
-
 /* Ambient glow utilities */
 .glow-cyan-sm {
-  box-shadow: 0 0 20px -5px rgba(72, 229, 245, 0.25);
+  box-shadow: 0 0 20px -5px rgba(56, 189, 248, 0.3);
 }
 
 .glow-cyan-md {
-  box-shadow: 0 0 35px -5px rgba(72, 229, 245, 0.35);
+  box-shadow: 0 0 35px -5px rgba(56, 189, 248, 0.4);
 }
 
 /* Grid & radial backgrounds */
 html.dark .bg-grid-pattern {
   background-size: 40px 40px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
 }
 
 html.light .bg-grid-pattern {
@@ -162,9 +242,9 @@ html.light .bg-grid-pattern {
 html.dark .bg-advanced-cyber-grid {
   background-size: 52px 52px, 52px 52px, 26px 26px;
   background-image: 
-    linear-gradient(to right, rgba(72, 229, 245, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(72, 229, 245, 0.035) 1px, transparent 1px),
-    radial-gradient(rgba(154, 131, 255, 0.08) 1px, transparent 1px);
+    linear-gradient(to right, rgba(56, 189, 248, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.045) 1px, transparent 1px),
+    radial-gradient(rgba(167, 139, 250, 0.12) 1.2px, transparent 1.2px);
 }
 
 html.light .bg-advanced-cyber-grid {
@@ -211,4 +291,3 @@ html.light .bg-advanced-cyber-grid {
     scroll-behavior: auto !important;
   }
 }
-
