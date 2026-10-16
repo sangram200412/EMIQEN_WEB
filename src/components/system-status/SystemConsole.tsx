@@ -43,6 +43,7 @@ export const SystemConsole: React.FC<SystemConsoleProps> = ({ activeState }) => 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           onClick={() => setIsOpen(true)}
+          aria-label="Open System Telemetry Console"
           className="flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-[#0D1420]/90 backdrop-blur-md border border-white/10 hover:border-[#48E5F5]/40 text-xs font-mono shadow-xl transition-all cursor-pointer group"
         >
           <span className="relative flex h-2 w-2">
@@ -85,12 +86,14 @@ export const SystemConsole: React.FC<SystemConsoleProps> = ({ activeState }) => 
                   onClick={checkStatus}
                   disabled={isChecking}
                   title="Ping Backend Endpoint"
+                  aria-label="Ping Backend Endpoint"
                   className="p-1 rounded bg-white/5 hover:bg-white/10 text-[#A4ADBB] transition-colors cursor-pointer"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isChecking ? 'animate-spin text-[#48E5F5]' : ''}`} />
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
+                  aria-label="Close Status Console"
                   className="p-1 rounded bg-white/5 hover:bg-white/10 text-[#A4ADBB] hover:text-[#F4F7FB] transition-colors cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />

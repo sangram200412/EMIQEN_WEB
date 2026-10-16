@@ -24,7 +24,7 @@ export const AdvancedBackground: React.FC = () => {
     window.addEventListener('resize', handleResize);
 
     // Subtle drifting background particle dust
-    const particleCount = window.innerWidth < 768 ? 24 : 45;
+    const particleCount = window.innerWidth < 768 ? 14 : 36;
     const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
@@ -36,6 +36,11 @@ export const AdvancedBackground: React.FC = () => {
     }));
 
     const render = () => {
+      if (document.hidden) {
+        animId = requestAnimationFrame(render);
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
       particles.forEach((p) => {

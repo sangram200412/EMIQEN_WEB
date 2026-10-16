@@ -5,7 +5,6 @@ interface BrandLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   variant?: 'full' | 'emblem' | 'stacked';
   layout?: 'horizontal' | 'stacked';
-  showDomain?: boolean;
 }
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({
@@ -13,7 +12,6 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
   size = 'md',
   variant = 'full',
   layout = 'horizontal',
-  showDomain = true,
 }) => {
   const isStacked = variant === 'stacked' || layout === 'stacked';
   const isEmblemOnly = variant === 'emblem';
@@ -30,13 +28,6 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     md: 'text-lg sm:text-xl md:text-2xl',
     lg: 'text-2xl sm:text-3xl',
     xl: 'text-3xl sm:text-4xl',
-  };
-
-  const domainSizes = {
-    sm: 'text-[11px] sm:text-xs',
-    md: 'text-xs sm:text-sm',
-    lg: 'text-sm sm:text-base',
-    xl: 'text-base sm:text-lg',
   };
 
   return (
@@ -69,15 +60,6 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
           <span className={`${textSizes[size]} font-black tracking-widest text-[#0F172A] dark:text-[#F8FAFC] transition-colors duration-200`}>
             EN
           </span>
-
-          {/* .COM Top-Level Domain Accent */}
-          {showDomain && (
-            <span
-              className={`${domainSizes[size]} font-extrabold tracking-wide ml-0.5 sm:ml-1 bg-gradient-to-r from-[#0284C7] via-[#0EA5E9] to-[#8B5CF6] dark:from-[#38BDF8] dark:via-[#48E5F5] dark:to-[#A78BFA] bg-clip-text text-transparent transition-colors duration-200`}
-            >
-              .COM
-            </span>
-          )}
         </div>
       )}
     </div>

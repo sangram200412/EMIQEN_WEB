@@ -228,10 +228,10 @@ export const VoiceConverterLab: React.FC<VoiceConverterLabProps> = ({ frequencyD
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0D1420] dark:bg-[#0D1420] light:bg-slate-100 border border-white/10 light:border-slate-300 text-xs font-mono text-[#48E5F5] light:text-[#0284C7]">
             <AudioWaveform className="w-3.5 h-3.5" />
-            <span>VOICE CONVERSION ENGINE</span>
+            <span>TEXT STUDIO ENGINE</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#F4F7FB] dark:text-[#F4F7FB] light:text-[#0F172A]">
-            Speech to Text & <span className="text-[#48E5F5] light:text-[#0284C7]">Text to Speech</span>
+            Text Studio: Speech to Text & <span className="text-[#48E5F5] light:text-[#0284C7]">Text to Speech</span>
           </h2>
           <p className="text-base text-[#A4ADBB] dark:text-[#A4ADBB] light:text-slate-600">
             Test both sides of the EMIQEN voice loop: live acoustic speech recognition and neural prosodic voice generation.

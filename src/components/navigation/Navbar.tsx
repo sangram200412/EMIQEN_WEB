@@ -27,11 +27,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: 'Pipeline', id: 'pipeline' },
     { label: 'Voice Studio', id: 'playground' },
-    { label: 'STT & TTS', id: 'voice-lab' },
+    { label: 'Text Studio', id: 'voice-lab' },
     { label: 'Emotion AI', id: 'emotion-intelligence' },
     { label: 'SLM Core', id: 'model-intelligence' },
+    { label: 'Pipeline', id: 'pipeline' },
     { label: 'Architecture', id: 'architecture' },
     { label: 'Contact', id: 'contact' },
   ];
@@ -102,6 +102,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Direct Voice Playground Action */}
           <button
             onClick={() => handleNavClick('playground')}
+            aria-label="Open Voice Studio"
             className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#48E5F5] hover:bg-[#3ec4d1] text-[#080B10] font-semibold text-xs transition-all shadow-[0_0_15px_rgba(72,229,245,0.25)] cursor-pointer"
           >
             <Mic className="w-3.5 h-3.5 fill-current" />
@@ -118,6 +119,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             className="p-2 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-[#F4F7FB] border border-slate-200 dark:border-white/10 transition-colors"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

@@ -42,18 +42,19 @@ export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
     let animId: number;
     let width = 0;
     let height = 0;
-
-    const strandCount = density === 'compact' ? 24 : density === 'rich' ? 36 : 30;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const strandCount = isMobile ? 14 : density === 'compact' ? 20 : density === 'rich' ? 32 : 26;
+    const segments = isMobile ? 48 : 110;
 
     const resize = () => {
       if (!canvas) return;
       const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.75);
       width = rect.width || window.innerWidth;
       height = rect.height || window.innerHeight;
 
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
     };
@@ -94,6 +95,12 @@ export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
     const render = () => {
       if (!canvas || !ctx) return;
       
+      // Pause drawing and math completely if tab is hidden to save 100% CPU
+      if (document.hidden) {
+        animId = requestAnimationFrame(render);
+        return;
+      }
+
       // Advance time smoothly and wrap at LOOP_CYCLE for an endless seamless loop
       time = (time + speed) % LOOP_CYCLE;
 
@@ -159,8 +166,7 @@ export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
       const mouseInfluenceY = (mouseRef.current.y - 0.5) * 35;
       const mouseInfluenceX = (mouseRef.current.x - 0.5) * 0.3;
 
-      // 140 step segments for silky-smooth curves
-      const segments = 140;
+      // Dynamic step segments based on device viewport
       const step = width / segments;
 
       // Fine wireframe vector line width

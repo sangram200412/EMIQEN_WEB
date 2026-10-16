@@ -4,13 +4,21 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%23080B10' stroke='%2348E5F5' stroke-width='2'/><circle cx='16' cy='16' r='6' fill='%2348E5F5'/><circle cx='16' cy='16' r='10' fill='none' stroke='%239A83FF' stroke-width='1.5' stroke-dasharray='4 2'/></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0F172A" />
     <title>EMIQEN-SLM — Intelligence That Listens. Understands. Responds.</title>
     <meta name="description" content="EMIQEN-SLM is a domain-specific small language model and voice AI assistant engineered for voice perception, emotion intelligence, and contextual reasoning." />
     
-    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <!-- Preload Critical Logo for Fast LCP -->
+    <link rel="preload" as="image" href="/logo-emblem.png" type="image/png" fetchpriority="high" />
+
+    <!-- Non-blocking Google Fonts with display=swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+    </noscript>
   </head>
   <body class="bg-[#0F172A] text-[#F8FAFC] selection:bg-[#38BDF8]/20 selection:text-[#38BDF8] antialiased overflow-x-hidden font-sans">
     <div id="root"></div>

@@ -39,14 +39,6 @@ export const Footer: React.FC<FooterProps> = ({ onScrollToSection }) => {
           <ul className="space-y-2 text-xs">
             <li>
               <button
-                onClick={() => onScrollToSection('pipeline')}
-                className="hover:text-[#48E5F5] transition-colors cursor-pointer"
-              >
-                Orchestration Pipeline
-              </button>
-            </li>
-            <li>
-              <button
                 onClick={() => onScrollToSection('playground')}
                 className="hover:text-[#48E5F5] transition-colors cursor-pointer"
               >
@@ -58,7 +50,7 @@ export const Footer: React.FC<FooterProps> = ({ onScrollToSection }) => {
                 onClick={() => onScrollToSection('voice-lab')}
                 className="hover:text-[#48E5F5] transition-colors cursor-pointer"
               >
-                Speech to Text & Text to Speech Lab
+                Text Studio (STT & TTS)
               </button>
             </li>
             <li>
@@ -74,7 +66,15 @@ export const Footer: React.FC<FooterProps> = ({ onScrollToSection }) => {
                 onClick={() => onScrollToSection('model-intelligence')}
                 className="hover:text-[#48E5F5] transition-colors cursor-pointer"
               >
-                Small Model Architecture
+                Small Model Architecture (SLM Core)
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => onScrollToSection('pipeline')}
+                className="hover:text-[#48E5F5] transition-colors cursor-pointer"
+              >
+                Orchestration Pipeline
               </button>
             </li>
             <li>

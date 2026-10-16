@@ -40,6 +40,7 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
     let displayW = 380;
     let displayH = 380;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     const updateSize = () => {
       if (!canvas) return;
       const rect = canvas.getBoundingClientRect();
@@ -53,7 +54,7 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
       displayW = Math.max(280, Math.floor(measuredW));
       displayH = Math.max(280, Math.floor(measuredH));
 
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.75);
       if (canvas.width !== Math.floor(displayW * dpr) || canvas.height !== Math.floor(displayH * dpr)) {
         canvas.width = Math.floor(displayW * dpr);
         canvas.height = Math.floor(displayH * dpr);
@@ -111,7 +112,7 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
     // -------------------------------------------------------------
     // TRUE 3D PARTICLES & GYROSCOPE RING CONFIGURATIONS (SMOOTH & CINEMATIC SPEEDS)
     // -------------------------------------------------------------
-    const particleCount = 80;
+    const particleCount = isMobile ? 36 : 75;
     const particles = Array.from({ length: particleCount }, () => {
       // Uniform spherical 3D distribution
       const u = Math.random();
@@ -157,6 +158,12 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
     // RENDER LOOP
     // -------------------------------------------------------------
     const render = () => {
+      // Pause completely if tab is hidden
+      if (document.hidden) {
+        animFrameId.current = requestAnimationFrame(render);
+        return;
+      }
+
       // Gentle, serene time increment (slowed down from 0.02)
       time += 0.0065;
 

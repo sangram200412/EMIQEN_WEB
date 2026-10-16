@@ -1,25 +1,42 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Navbar } from './components/navigation/Navbar';
 import { Hero } from './components/hero/Hero';
-import { AgentPipeline } from './components/agent-pipeline/AgentPipeline';
 import { VoicePlayground } from './components/voice-playground/VoicePlayground';
-import { VoiceConverterLab } from './components/voice-lab/VoiceConverterLab';
-import { EmotionVisualizer } from './components/emotion-visualizer/EmotionVisualizer';
-import { ModelExplorer } from './components/model-explorer/ModelExplorer';
-import { Capabilities } from './components/capabilities/Capabilities';
-import { ArchitectureExplorer } from './components/architecture/ArchitectureExplorer';
-import { ContactUs } from './components/contact/ContactUs';
 import { FinalCta } from './components/cta/FinalCta';
 import { Footer } from './components/footer/Footer';
 import { SystemConsole } from './components/system-status/SystemConsole';
-import { LoginModal } from './components/auth/LoginModal';
 import type { UserProfile } from './components/auth/LoginModal';
-import { ChatWorkspace } from './components/chat/ChatWorkspace';
 import { AdvancedBackground } from './components/common/AdvancedBackground';
 import { useTheme } from './hooks/useTheme';
 import { audioService } from './services/audio';
 import { apiService } from './services/api';
 import type { IntelligenceState } from './types';
+
+// Lazy-load below-the-fold components and heavy modals for maximum Core Web Vitals & PageSpeed
+const VoiceConverterLab = lazy(() =>
+  import('./components/voice-lab/VoiceConverterLab').then((m) => ({ default: m.VoiceConverterLab }))
+);
+const EmotionVisualizer = lazy(() =>
+  import('./components/emotion-visualizer/EmotionVisualizer').then((m) => ({ default: m.EmotionVisualizer }))
+);
+const ModelExplorer = lazy(() =>
+  import('./components/model-explorer/ModelExplorer').then((m) => ({ default: m.ModelExplorer }))
+);
+const AgentPipeline = lazy(() =>
+  import('./components/agent-pipeline/AgentPipeline').then((m) => ({ default: m.AgentPipeline }))
+);
+const ArchitectureExplorer = lazy(() =>
+  import('./components/architecture/ArchitectureExplorer').then((m) => ({ default: m.ArchitectureExplorer }))
+);
+const ContactUs = lazy(() =>
+  import('./components/contact/ContactUs').then((m) => ({ default: m.ContactUs }))
+);
+const LoginModal = lazy(() =>
+  import('./components/auth/LoginModal').then((m) => ({ default: m.LoginModal }))
+);
+const ChatWorkspace = lazy(() =>
+  import('./components/chat/ChatWorkspace').then((m) => ({ default: m.ChatWorkspace }))
+);
 
 export function App() {
   const { theme, setTheme } = useTheme();
@@ -52,12 +69,17 @@ export function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isChatWorkspaceOpen, setIsChatWorkspaceOpen] = useState(false);
 
-  // Poll audio frequencies smoothly when active
+  // Poll audio frequencies smoothly ONLY when system is actively listening/thinking/speaking.
+  // When idle, avoids 25fps continuous root re-renders that exhaust the main thread.
   useEffect(() => {
+    if (systemState === 'idle') {
+      setFrequencyData([]);
+      return;
+    }
+
     let animId: number;
     let lastUpdate = 0;
     const updateAudioData = (timestamp: number) => {
-      // Throttle frequency polling to ~25fps (every 40ms) to ensure butter-smooth rendering
       if (timestamp - lastUpdate >= 40) {
         lastUpdate = timestamp;
         const data = audioService.getFrequencyData();
@@ -68,7 +90,7 @@ export function App() {
 
     animId = requestAnimationFrame(updateAudioData);
     return () => cancelAnimationFrame(animId);
-  }, []);
+  }, [systemState]);
 
   // Health check on mount
   useEffect(() => {
@@ -101,14 +123,16 @@ export function App() {
   // If user is inside the full-screen chat workspace
   if (isChatWorkspaceOpen && currentUser) {
     return (
-      <ChatWorkspace
-        user={currentUser}
-        onLogout={handleLogout}
-        onBackToWebsite={() => setIsChatWorkspaceOpen(false)}
-        currentTheme={theme}
-        onThemeChange={setTheme}
-        frequencyData={frequencyData}
-      />
+      <Suspense fallback={<div className="min-h-screen bg-theme-base flex items-center justify-center text-slate-400">Loading Workspace...</div>}>
+        <ChatWorkspace
+          user={currentUser}
+          onLogout={handleLogout}
+          onBackToWebsite={() => setIsChatWorkspaceOpen(false)}
+          currentTheme={theme}
+          onThemeChange={setTheme}
+          frequencyData={frequencyData}
+        />
+      </Suspense>
     );
   }
 
@@ -139,32 +163,32 @@ export function App() {
           frequencyData={frequencyData}
         />
 
-        {/* 5-Stage Orchestration Experience */}
-        <AgentPipeline />
-
-        {/* Live Voice Playground */}
+        {/* Live Voice Playground (Voice Studio) */}
         <VoicePlayground
           onStateChange={handleStateChange}
           frequencyData={frequencyData}
         />
 
-        {/* Dedicated Speech to Text & Text to Speech Studio */}
-        <VoiceConverterLab frequencyData={frequencyData} />
+        {/* Suspense-wrapped below-the-fold modules for lightning-fast initial load */}
+        <Suspense fallback={<div className="py-24 text-center text-xs font-mono text-slate-500">Loading module...</div>}>
+          {/* Dedicated Text Studio (Speech to Text & Text to Speech) */}
+          <VoiceConverterLab frequencyData={frequencyData} />
 
-        {/* Emotion Intelligence Visualizer */}
-        <EmotionVisualizer />
+          {/* Emotion Intelligence Visualizer */}
+          <EmotionVisualizer />
 
-        {/* Small Model Architecture Explorer */}
-        <ModelExplorer />
+          {/* Small Model Architecture Explorer (SLM Core) */}
+          <ModelExplorer />
 
-        {/* Engineered Product Capabilities Grid */}
-        <Capabilities />
+          {/* 5-Stage Orchestration Experience (Pipeline) */}
+          <AgentPipeline />
 
-        {/* End-to-End System Architecture Explorer */}
-        <ArchitectureExplorer backendConnected={backendConnected} />
+          {/* End-to-End System Architecture Explorer */}
+          <ArchitectureExplorer backendConnected={backendConnected} />
 
-        {/* Enterprise & Developer Contact Section */}
-        <ContactUs />
+          {/* Enterprise & Developer Contact Section */}
+          <ContactUs />
+        </Suspense>
 
         {/* Dramatic Closing CTA */}
         <FinalCta
@@ -180,11 +204,15 @@ export function App() {
       <SystemConsole activeState={systemState} />
 
       {/* Login Authentication Modal */}
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-        onLoginSuccess={handleLoginSuccess}
-      />
+      {isLoginModalOpen && (
+        <Suspense fallback={null}>
+          <LoginModal
+            isOpen={isLoginModalOpen}
+            onClose={() => setIsLoginModalOpen(false)}
+            onLoginSuccess={handleLoginSuccess}
+          />
+        </Suspense>
+      )}
 
     </div>
   );
