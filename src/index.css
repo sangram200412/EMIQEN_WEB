@@ -79,38 +79,38 @@ html.light .glass-panel {
   box-shadow: 0 8px 30px -8px rgba(15, 23, 42, 0.06), inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-/* Premium Frosted Crystal Glass for 3D Neural Orbital Core (Borderless Seamless Glass in both Dark & Light themes) */
+/* 3D Neural Orbital Core - 100% Transparent Seamless Canvas (No card borders, no bounding box) */
 .glass-neural-card {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: 0 solid transparent !important;
   border: none !important;
   border-width: 0 !important;
   outline: none !important;
+  box-shadow: none !important;
 }
 
 html.dark .glass-neural-card {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.40) 0%, rgba(15, 23, 42, 0.30) 100%) !important;
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: 0 solid transparent !important;
   border: none !important;
   border-width: 0 !important;
   outline: none !important;
-  box-shadow:
-    0 20px 45px -10px rgba(56, 189, 248, 0.06),
-    0 25px 50px -12px rgba(0, 0, 0, 0.40) !important;
+  box-shadow: none !important;
 }
 
 html.light .glass-neural-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.22) 100%) !important;
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: 0 solid transparent !important;
   border: none !important;
   border-width: 0 !important;
   outline: none !important;
-  box-shadow:
-    0 20px 45px -10px rgba(14, 165, 233, 0.10),
-    0 8px 24px -4px rgba(15, 23, 42, 0.04) !important;
+  box-shadow: none !important;
 }
 
 /* -------------------------------------------------------------
