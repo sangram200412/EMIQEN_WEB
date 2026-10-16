@@ -559,7 +559,7 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
       />
 
       {/* Floating Status Pill */}
-      <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 dark:bg-[#0F172A]/75 backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-xl whitespace-nowrap">
+      <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 dark:bg-[#0F172A]/75 backdrop-blur-xl border-0 shadow-lg shadow-black/5 whitespace-nowrap">
         <span className="relative flex h-2 w-2">
           <span
             className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-80 ${

@@ -119,9 +119,9 @@ export const Hero: React.FC<HeroProps> = ({
 
         {/* Right Column: Always-Active 3D Visualization + Descriptive Explainer */}
         <div className="lg:col-span-5 flex flex-col space-y-4 w-full">
-          {/* Main 3D Canvas Card */}
-          <div className="w-full relative glass-neural-card rounded-2xl sm:rounded-3xl p-2 sm:p-4 shadow-2xl overflow-hidden transition-all duration-300">
-            <div className="absolute top-3 left-4 flex items-center gap-1.5 z-20 px-2.5 py-1 rounded-full bg-white/70 dark:bg-slate-900/60 backdrop-blur-md border border-white/80 dark:border-white/15 shadow-sm">
+          {/* Main 3D Canvas Card (Borderless Frosted Glass) */}
+          <div className="w-full relative glass-neural-card border-0 border-none rounded-2xl sm:rounded-3xl p-2 sm:p-4 shadow-2xl overflow-hidden transition-all duration-300">
+            <div className="absolute top-3 left-4 flex items-center gap-1.5 z-20 px-2.5 py-1 rounded-full bg-white/70 dark:bg-slate-900/60 backdrop-blur-md border-0 shadow-sm">
               <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400" />
               <span className="text-[10px] font-mono tracking-widest text-slate-700 dark:text-[#94A3B8] uppercase font-semibold">
                 NEURAL ORBITAL CORE
