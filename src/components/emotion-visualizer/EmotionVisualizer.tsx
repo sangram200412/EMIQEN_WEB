@@ -184,7 +184,7 @@ export const EmotionVisualizer: React.FC = () => {
                 <span className="text-xl font-bold text-[#F4F7FB]">
                   {selectedScenario.detectedEmotion}
                 </span>
-                <span className="px-2 py-0.5 text-[10px] font-mono rounded bg-[#9A83FF]/20 text-[#9A83FF]">
+                <span className="px-2 py-0.5 text-[10px] font-mono rounded bg-[#9A83FF]/20 text-[#C4B5FD] font-semibold">
                   WEIGHTED FEATURE
                 </span>
               </div>

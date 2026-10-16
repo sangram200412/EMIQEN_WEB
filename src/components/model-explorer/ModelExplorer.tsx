@@ -160,7 +160,7 @@ export const ModelExplorer: React.FC = () => {
               >
                 <div className="flex items-center justify-between text-xs font-mono mb-3">
                   <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                    isSelected ? 'bg-[#9A83FF]/20 text-[#9A83FF]' : 'bg-white/5 text-[#A4ADBB]'
+                    isSelected ? 'bg-[#9A83FF]/20 text-[#C4B5FD]' : 'bg-white/5 text-[#A4ADBB]'
                   }`}>
                     0{step.step}
                   </span>

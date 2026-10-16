@@ -109,10 +109,7 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
     canvas.addEventListener('touchstart', handleTouchMove, { passive: true });
     canvas.addEventListener('touchend', handleInteractionEnd, { passive: true });
 
-    // -------------------------------------------------------------
-    // TRUE 3D PARTICLES & GYROSCOPE RING CONFIGURATIONS (SMOOTH & CINEMATIC SPEEDS)
-    // -------------------------------------------------------------
-    const particleCount = isMobile ? 36 : 75;
+    const particleCount = isMobile ? 22 : 75;
     const particles = Array.from({ length: particleCount }, () => {
       // Uniform spherical 3D distribution
       const u = Math.random();
@@ -152,17 +149,27 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
     ];
 
     let time = 0;
+    let isVisible = true;
+    let lastRenderTime = 0;
     const camDistance = 420;
 
     // -------------------------------------------------------------
     // RENDER LOOP
     // -------------------------------------------------------------
-    const render = () => {
-      // Pause completely if tab is hidden
-      if (document.hidden) {
+    const render = (timestamp: number) => {
+      // Pause completely if tab is hidden or element is scrolled off-screen
+      if (!canvas || !ctx || !isVisible || document.hidden) {
+        animFrameId.current = null;
+        return;
+      }
+
+      // Smooth ~30 FPS throttle on mobile and ~40 FPS on desktop eliminates main-thread contention
+      const minDelta = isMobile ? 34 : 24;
+      if (timestamp - lastRenderTime < minDelta) {
         animFrameId.current = requestAnimationFrame(render);
         return;
       }
+      lastRenderTime = timestamp;
 
       // Gentle, serene time increment (slowed down from 0.02)
       time += 0.0065;
@@ -310,7 +317,7 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
       // 3. 4 NESTED 3D GYROSCOPE RINGS (Full 3D Elliptical Geometry)
       // -------------------------------------------------------------
       gyroRings.forEach((ring, ringIdx) => {
-        const ringSegments = 54;
+        const ringSegments = isMobile ? 28 : 54;
         const currentRadius = ring.radius * scale;
         const ringPoints: { px: number; py: number; depth: number; scale: number }[] = [];
 
@@ -380,10 +387,7 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
         ctx.beginPath();
         ctx.arc(packetProj.px, packetProj.py, (ringIdx === 3 ? 3.5 : 2.8) * packetProj.scale * scale, 0, Math.PI * 2);
         ctx.fillStyle = ring.color === 'violet' ? colorViolet : '#FFFFFF';
-        ctx.shadowColor = ring.color === 'violet' ? colorViolet : colorCyan;
-        ctx.shadowBlur = 8;
         ctx.fill();
-        ctx.shadowBlur = 0;
       });
 
       // -------------------------------------------------------------
@@ -393,12 +397,12 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
 
       // 3D Wireframe Hologram Latitude and Longitude Lines
       const sphereR = corePulse * 1.35;
-      const sphereLatitudeCount = 4;
+      const sphereLatitudeCount = isMobile ? 2 : 4;
       for (let lat = 1; lat <= sphereLatitudeCount; lat++) {
         const phi = (lat / (sphereLatitudeCount + 1)) * Math.PI - Math.PI / 2;
         const latR = Math.cos(phi) * sphereR;
         const latY = Math.sin(phi) * sphereR;
-        const latPts = 24;
+        const latPts = isMobile ? 14 : 24;
 
         ctx.beginPath();
         for (let i = 0; i <= latPts; i++) {
@@ -437,8 +441,6 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
       ctx.save();
       ctx.translate(centerX, centerY);
       ctx.rotate(time * 0.22);
-      ctx.shadowColor = colorCyan;
-      ctx.shadowBlur = 8;
       for (let s = 0; s < 6; s++) {
         ctx.rotate(Math.PI / 3);
         ctx.beginPath();
@@ -453,7 +455,6 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
         ctx.fillStyle = colorCyan;
         ctx.fill();
       }
-      ctx.shadowBlur = 0;
       ctx.restore();
 
       // -------------------------------------------------------------
@@ -512,10 +513,22 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
       animFrameId.current = requestAnimationFrame(render);
     };
 
-    render();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animFrameId.current) {
+          animFrameId.current = requestAnimationFrame(render);
+        }
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
+
+    animFrameId.current = requestAnimationFrame(render);
 
     return () => {
       if (animFrameId.current) cancelAnimationFrame(animFrameId.current);
+      observer.disconnect();
       if (resizeObserver) resizeObserver.disconnect();
       else window.removeEventListener('resize', updateSize);
       window.removeEventListener('mousemove', handleMouseMove);

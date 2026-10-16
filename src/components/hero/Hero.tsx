@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Mic, Cpu, ShieldCheck, ArrowRight, Activity, Sparkles, Orbit } from 'lucide-react';
 import { NeuralCoreCanvas } from '../intelligence-core/NeuralCoreCanvas';
 import type { IntelligenceState } from '../../types';
@@ -27,11 +26,8 @@ export const Hero: React.FC<HeroProps> = ({
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center relative z-10">
         
         {/* Left Column: Product Messaging */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="lg:col-span-7 flex flex-col text-left space-y-6 sm:space-y-7"
+        <div 
+          className="lg:col-span-7 flex flex-col text-left space-y-6 sm:space-y-7 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out"
         >
           {/* Eyebrow */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-[#1E293B] border border-slate-200 dark:border-white/10 w-fit">
@@ -119,7 +115,7 @@ export const Hero: React.FC<HeroProps> = ({
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Right Column: Always-Active 3D Visualization + Descriptive Explainer */}
         <div className="lg:col-span-5 flex flex-col space-y-4 w-full">

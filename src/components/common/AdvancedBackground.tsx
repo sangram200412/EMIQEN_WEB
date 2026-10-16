@@ -24,7 +24,14 @@ export const AdvancedBackground: React.FC = () => {
     window.addEventListener('resize', handleResize);
 
     // Subtle drifting background particle dust
-    const particleCount = window.innerWidth < 768 ? 14 : 36;
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) {
+      // On mobile screens, HarmonicCurvesWave and ambient gradient orbs provide high fidelity visuals;
+      // skipping the secondary full-screen canvas prevents CPU throttling
+      return;
+    }
+
+    const particleCount = 28;
     const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
@@ -35,11 +42,19 @@ export const AdvancedBackground: React.FC = () => {
       color: Math.random() > 0.4 ? '#48E5F5' : '#9A83FF',
     }));
 
-    const render = () => {
+    let lastTime = 0;
+    const render = (timestamp: number) => {
       if (document.hidden) {
         animId = requestAnimationFrame(render);
         return;
       }
+
+      // Throttle subtle drifting particles to ~30 FPS saves CPU
+      if (timestamp - lastTime < 33) {
+        animId = requestAnimationFrame(render);
+        return;
+      }
+      lastTime = timestamp;
 
       ctx.clearRect(0, 0, width, height);
 
@@ -63,7 +78,7 @@ export const AdvancedBackground: React.FC = () => {
       animId = requestAnimationFrame(render);
     };
 
-    render();
+    animId = requestAnimationFrame(render);
 
     return () => {
       cancelAnimationFrame(animId);

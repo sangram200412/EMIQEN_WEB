@@ -43,13 +43,19 @@ export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
     let width = 0;
     let height = 0;
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const strandCount = isMobile ? 14 : density === 'compact' ? 20 : density === 'rich' ? 32 : 26;
-    const segments = isMobile ? 48 : 110;
+    const strandCount = isMobile ? 8 : density === 'compact' ? 14 : density === 'rich' ? 22 : 18;
+    const segments = isMobile ? 24 : 72;
+
+    let cachedGradWarm: CanvasGradient | null = null;
+    let cachedGradCool: CanvasGradient | null = null;
+    let cachedIsDark: boolean | null = null;
+    let cachedW = 0;
+    let cachedH = 0;
 
     const resize = () => {
       if (!canvas) return;
       const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.75);
+      const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.5);
       width = rect.width || window.innerWidth;
       height = rect.height || window.innerHeight;
 
@@ -57,6 +63,7 @@ export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
       canvas.height = Math.floor(height * dpr);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
+      cachedIsDark = null; // force gradient recalculation on resize
     };
 
     resize();
@@ -87,19 +94,29 @@ export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     // Mathematical cycle period for zero-glitch, 100% seamless infinite looping:
-    // With all harmonic angular frequencies being exact multiples of 0.1 (1.8, 1.2, 2.4, 1.6, 2.2),
-    // 20*PI completes an exact integer number of full 2*PI oscillation cycles for every wave!
     const LOOP_CYCLE = Math.PI * 20;
     let time = 0;
+    let lastFrameTime = 0;
+    let isVisible = true;
 
-    const render = () => {
-      if (!canvas || !ctx) return;
+    const render = (timestamp: number) => {
+      if (!canvas || !ctx || !isVisible) {
+        return;
+      }
       
       // Pause drawing and math completely if tab is hidden to save 100% CPU
       if (document.hidden) {
         animId = requestAnimationFrame(render);
         return;
       }
+
+      // Smooth frame throttle (~28 FPS on mobile, ~35 FPS on desktop): relieves main-thread TBT without visual degradation
+      const minInterval = isMobile ? 35 : 27;
+      if (timestamp - lastFrameTime < minInterval) {
+        animId = requestAnimationFrame(render);
+        return;
+      }
+      lastFrameTime = timestamp;
 
       // Advance time smoothly and wrap at LOOP_CYCLE for an endless seamless loop
       time = (time + speed) % LOOP_CYCLE;
@@ -129,39 +146,39 @@ export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
 
       ctx.clearRect(0, 0, width, height);
 
-      // -------------------------------------------------------------
-      // DUAL-RIBBON HARMONIC COLOR COMBINATION:
-      // Ribbon 1: Amber Sunburst -> Sunset Coral Rose (Figma reference)
-      // Ribbon 2: Electric Cyan -> Royal Cobalt -> Violet (EMIQEN signature)
-      // -------------------------------------------------------------
-      const gradWarm = ctx.createLinearGradient(0, height * 0.2, width, height * 0.85);
-      const gradCool = ctx.createLinearGradient(0, height * 0.85, width, height * 0.15);
+      // Recreate cached gradients only if dimensions or theme changed
+      if (cachedIsDark !== isDark || cachedW !== width || cachedH !== height || !cachedGradWarm || !cachedGradCool) {
+        cachedIsDark = isDark;
+        cachedW = width;
+        cachedH = height;
 
-      if (isDark) {
-        gradWarm.addColorStop(0.0, 'rgba(251, 191, 36, 0.75)'); // #FBBF24 Amber Gold
-        gradWarm.addColorStop(0.35, 'rgba(245, 158, 11, 0.70)'); // #F59E0B Warm Amber
-        gradWarm.addColorStop(0.65, 'rgba(251, 113, 133, 0.75)'); // #FB7185 Coral Rose
-        gradWarm.addColorStop(1.0, 'rgba(244, 63, 94, 0.80)'); // #F43F5E Sunset Coral
+        cachedGradWarm = ctx.createLinearGradient(0, height * 0.2, width, height * 0.85);
+        cachedGradCool = ctx.createLinearGradient(0, height * 0.85, width, height * 0.15);
 
-        gradCool.addColorStop(0.0, 'rgba(56, 189, 248, 0.75)'); // #38BDF8 Electric Cyan
-        gradCool.addColorStop(0.35, 'rgba(14, 165, 233, 0.70)'); // #0EA5E9 Sky Blue
-        gradCool.addColorStop(0.70, 'rgba(99, 102, 241, 0.72)'); // #6366F1 Indigo
-        gradCool.addColorStop(1.0, 'rgba(167, 139, 250, 0.80)'); // #A78BFA Violet
+        if (isDark) {
+          cachedGradWarm.addColorStop(0.0, 'rgba(251, 191, 36, 0.75)');
+          cachedGradWarm.addColorStop(0.35, 'rgba(245, 158, 11, 0.70)');
+          cachedGradWarm.addColorStop(0.65, 'rgba(251, 113, 133, 0.75)');
+          cachedGradWarm.addColorStop(1.0, 'rgba(244, 63, 94, 0.80)');
 
-        ctx.globalCompositeOperation = 'screen';
-      } else {
-        gradWarm.addColorStop(0.0, 'rgba(217, 119, 6, 0.75)'); // #D97706 Warm Gold
-        gradWarm.addColorStop(0.40, 'rgba(234, 88, 12, 0.70)'); // #EA580C Tangerine
-        gradWarm.addColorStop(0.75, 'rgba(225, 29, 72, 0.75)'); // #E11D48 Coral Rose
-        gradWarm.addColorStop(1.0, 'rgba(190, 18, 60, 0.80)'); // #BE123C Deep Ruby
+          cachedGradCool.addColorStop(0.0, 'rgba(56, 189, 248, 0.75)');
+          cachedGradCool.addColorStop(0.35, 'rgba(14, 165, 233, 0.70)');
+          cachedGradCool.addColorStop(0.70, 'rgba(99, 102, 241, 0.72)');
+          cachedGradCool.addColorStop(1.0, 'rgba(167, 139, 250, 0.80)');
+        } else {
+          cachedGradWarm.addColorStop(0.0, 'rgba(217, 119, 6, 0.75)');
+          cachedGradWarm.addColorStop(0.40, 'rgba(234, 88, 12, 0.70)');
+          cachedGradWarm.addColorStop(0.75, 'rgba(225, 29, 72, 0.75)');
+          cachedGradWarm.addColorStop(1.0, 'rgba(190, 18, 60, 0.80)');
 
-        gradCool.addColorStop(0.0, 'rgba(2, 132, 199, 0.75)'); // #0284C7 Cerulean
-        gradCool.addColorStop(0.40, 'rgba(37, 99, 235, 0.70)'); // #2563EB Royal Blue
-        gradCool.addColorStop(0.75, 'rgba(124, 58, 237, 0.75)'); // #7C3AED Royal Violet
-        gradCool.addColorStop(1.0, 'rgba(147, 51, 234, 0.80)'); // #9333EA Purple
-
-        ctx.globalCompositeOperation = 'source-over';
+          cachedGradCool.addColorStop(0.0, 'rgba(2, 132, 199, 0.75)');
+          cachedGradCool.addColorStop(0.40, 'rgba(37, 99, 235, 0.70)');
+          cachedGradCool.addColorStop(0.75, 'rgba(124, 58, 237, 0.75)');
+          cachedGradCool.addColorStop(1.0, 'rgba(147, 51, 234, 0.80)');
+        }
       }
+
+      ctx.globalCompositeOperation = isDark ? 'screen' : 'source-over';
 
       const mouseInfluenceY = (mouseRef.current.y - 0.5) * 35;
       const mouseInfluenceX = (mouseRef.current.x - 0.5) * 0.3;
@@ -176,7 +193,7 @@ export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
       // Ribbon 1 (Warm Amber & Coral Vector Splines):
       // Organic traveling waves that continuously flow and loop seamlessly
       // -------------------------------------------------------------
-      ctx.strokeStyle = gradWarm;
+      ctx.strokeStyle = cachedGradWarm!;
 
       for (let s = 0; s < strandCount; s++) {
         const strandNorm = s / (strandCount - 1);
@@ -220,7 +237,7 @@ export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
       // Ribbon 2 (Cool Cyan & Violet Vector Splines):
       // Counter-harmonic intertwining ribbon crossing Ribbon 1
       // -------------------------------------------------------------
-      ctx.strokeStyle = gradCool;
+      ctx.strokeStyle = cachedGradCool!;
       const coolStrands = Math.round(strandCount * 0.9);
 
       for (let s = 0; s < coolStrands; s++) {
@@ -263,9 +280,19 @@ export const HarmonicCurvesWave: React.FC<HarmonicCurvesWaveProps> = ({
       animId = requestAnimationFrame(render);
     };
 
-    render();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          animId = requestAnimationFrame(render);
+        }
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(canvas);
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
       if (interactive) {

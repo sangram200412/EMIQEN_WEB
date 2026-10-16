@@ -40,11 +40,16 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       <div className="relative shrink-0 flex items-center justify-center">
         {/* Soft radial backlight to accentuate the silhouette and back spine */}
         <div className="absolute inset-0 -m-1 rounded-full bg-gradient-to-tr from-[#8B5CF6]/25 via-[#0EA5E9]/25 to-[#38BDF8]/25 blur-md -z-10 pointer-events-none opacity-75 group-hover:opacity-100 transition-opacity" />
-        <img
-          src="/logo-emblem.png"
-          alt="EMIQEN AI Core"
-          className={`${emblemSizes[size]} object-contain relative z-10 transition-all duration-300 group-hover:scale-105 drop-shadow-[0_2px_10px_rgba(14,165,233,0.35)] group-hover:drop-shadow-[0_0_18px_rgba(56,189,248,0.6)]`}
-        />
+        <picture>
+          <source srcSet="/logo-emblem.webp" type="image/webp" />
+          <img
+            src="/logo-emblem.png"
+            alt="EMIQEN AI Core"
+            width="48"
+            height="48"
+            className={`${emblemSizes[size]} object-contain relative z-10 transition-all duration-300 group-hover:scale-105 drop-shadow-[0_2px_10px_rgba(14,165,233,0.35)] group-hover:drop-shadow-[0_0_18px_rgba(56,189,248,0.6)]`}
+          />
+        </picture>
       </div>
 
       {/* Brand Typography Wordmark (High-Contrast in both Dark and Light Themes) */}

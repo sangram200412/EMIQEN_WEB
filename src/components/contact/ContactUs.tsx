@@ -170,11 +170,13 @@ export const ContactUs: React.FC = () => {
 
                     {/* Inquiry Category */}
                     <div>
-                      <label className="text-[11px] font-mono text-slate-700 dark:text-[#A4ADBB] uppercase tracking-wider block mb-1.5 font-medium">
+                      <label htmlFor="inquiry-category" className="text-[11px] font-mono text-slate-700 dark:text-[#A4ADBB] uppercase tracking-wider block mb-1.5 font-medium">
                         Inquiry Category
                       </label>
                       <div className="relative flex items-center">
                         <select
+                          id="inquiry-category"
+                          aria-label="Inquiry Category"
                           value={formData.inquiryType}
                           onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
                           className="w-full px-4 py-3 rounded-xl bg-white dark:bg-[#080B10] border border-slate-300 dark:border-white/10 text-xs font-mono text-slate-900 dark:text-[#F4F7FB] focus:outline-none focus:border-[#0284C7] dark:focus:border-[#48E5F5] shadow-xs transition-colors cursor-pointer"

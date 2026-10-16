@@ -102,9 +102,9 @@ export const ArchitectureExplorer: React.FC<ArchitectureExplorerProps> = ({
                       </span>
                     </div>
 
-                    <h4 className="text-sm font-semibold text-[#F4F7FB]">
+                    <h3 className="text-sm font-semibold text-[#F4F7FB]">
                       {node.name}
-                    </h4>
+                    </h3>
                     <p className="text-[11px] text-[#A4ADBB] mt-1 line-clamp-1">
                       {node.responsibility}
                     </p>

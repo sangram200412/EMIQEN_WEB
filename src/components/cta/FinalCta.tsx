@@ -26,8 +26,12 @@ export const FinalCta: React.FC<FinalCtaProps> = ({ onTryLive, onExploreTech }) 
 
     window.addEventListener('resize', handleResize);
 
-    // Converging particle simulation
-    const particleCount = 80;
+    let isVisible = false;
+    let animId: number = 0;
+    let lastTime = 0;
+
+    // Converging particle simulation (36 particles is lightweight and aesthetically rich)
+    const particleCount = 36;
     const particles = Array.from({ length: particleCount }, () => ({
       dist: 50 + Math.random() * 250,
       angle: Math.random() * Math.PI * 2,
@@ -37,9 +41,19 @@ export const FinalCta: React.FC<FinalCtaProps> = ({ onTryLive, onExploreTech }) 
       alpha: 0.2 + Math.random() * 0.7,
     }));
 
-    let animId: number;
+    const render = (timestamp: number) => {
+      if (!canvas || !ctx || !isVisible || document.hidden) {
+        animId = 0;
+        return;
+      }
 
-    const render = () => {
+      // Throttle to ~35fps
+      if (timestamp - lastTime < 28) {
+        animId = requestAnimationFrame(render);
+        return;
+      }
+      lastTime = timestamp;
+
       ctx.clearRect(0, 0, width, height);
       const cx = width / 2;
       const cy = height / 2;
@@ -75,22 +89,35 @@ export const FinalCta: React.FC<FinalCtaProps> = ({ onTryLive, onExploreTech }) 
         ctx.globalAlpha = 1;
       });
 
-      // Central core dot
+      // Central core glowing halo and bright center without CPU-taxing shadowBlur
       ctx.beginPath();
-      ctx.arc(cx, cy, 5, 0, Math.PI * 2);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.shadowColor = '#48E5F5';
-      ctx.shadowBlur = 15;
+      ctx.arc(cx, cy, 10, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(72, 229, 245, 0.35)';
       ctx.fill();
-      ctx.shadowBlur = 0;
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
 
       animId = requestAnimationFrame(render);
     };
 
-    render();
+    // Pause when offscreen — saves 100% CPU during initial page load & benchmarks
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animId) {
+          animId = requestAnimationFrame(render);
+        }
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
 
     return () => {
-      cancelAnimationFrame(animId);
+      if (animId) cancelAnimationFrame(animId);
+      observer.disconnect();
       window.removeEventListener('resize', handleResize);
     };
   }, []);

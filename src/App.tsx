@@ -1,10 +1,7 @@
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Navbar } from './components/navigation/Navbar';
 import { Hero } from './components/hero/Hero';
-import { VoicePlayground } from './components/voice-playground/VoicePlayground';
-import { FinalCta } from './components/cta/FinalCta';
 import { Footer } from './components/footer/Footer';
-import { SystemConsole } from './components/system-status/SystemConsole';
 import type { UserProfile } from './components/auth/LoginModal';
 import { AdvancedBackground } from './components/common/AdvancedBackground';
 import { useTheme } from './hooks/useTheme';
@@ -13,6 +10,15 @@ import { apiService } from './services/api';
 import type { IntelligenceState } from './types';
 
 // Lazy-load below-the-fold components and heavy modals for maximum Core Web Vitals & PageSpeed
+const VoicePlayground = lazy(() =>
+  import('./components/voice-playground/VoicePlayground').then((m) => ({ default: m.VoicePlayground }))
+);
+const FinalCta = lazy(() =>
+  import('./components/cta/FinalCta').then((m) => ({ default: m.FinalCta }))
+);
+const SystemConsole = lazy(() =>
+  import('./components/system-status/SystemConsole').then((m) => ({ default: m.SystemConsole }))
+);
 const VoiceConverterLab = lazy(() =>
   import('./components/voice-lab/VoiceConverterLab').then((m) => ({ default: m.VoiceConverterLab }))
 );
@@ -164,10 +170,12 @@ export function App() {
         />
 
         {/* Live Voice Playground (Voice Studio) */}
-        <VoicePlayground
-          onStateChange={handleStateChange}
-          frequencyData={frequencyData}
-        />
+        <Suspense fallback={<div className="min-h-[440px] flex items-center justify-center text-xs font-mono text-slate-500">Loading Voice Studio...</div>}>
+          <VoicePlayground
+            onStateChange={handleStateChange}
+            frequencyData={frequencyData}
+          />
+        </Suspense>
 
         {/* Suspense-wrapped below-the-fold modules for lightning-fast initial load */}
         <Suspense fallback={<div className="py-24 text-center text-xs font-mono text-slate-500">Loading module...</div>}>
@@ -191,17 +199,21 @@ export function App() {
         </Suspense>
 
         {/* Dramatic Closing CTA */}
-        <FinalCta
-          onTryLive={() => scrollToSection('playground')}
-          onExploreTech={() => scrollToSection('model-intelligence')}
-        />
+        <Suspense fallback={null}>
+          <FinalCta
+            onTryLive={() => scrollToSection('playground')}
+            onExploreTech={() => scrollToSection('model-intelligence')}
+          />
+        </Suspense>
       </main>
 
       {/* Refined Footer */}
       <Footer onScrollToSection={scrollToSection} />
 
       {/* Floating System Console */}
-      <SystemConsole activeState={systemState} />
+      <Suspense fallback={null}>
+        <SystemConsole activeState={systemState} />
+      </Suspense>
 
       {/* Login Authentication Modal */}
       {isLoginModalOpen && (
