@@ -554,12 +554,12 @@ export const NeuralCoreCanvas: React.FC<NeuralCoreCanvasProps> = ({
       {/* 3D Neural Canvas (Fully responsive and always active on phone, tablet, and laptop) */}
       <canvas
         ref={canvasRef}
-        className="w-full h-[320px] xs:h-[360px] sm:h-[420px] md:h-[470px] lg:h-[510px] cursor-grab active:cursor-grabbing touch-pan-y block"
+        className="w-full h-[320px] xs:h-[360px] sm:h-[420px] md:h-[470px] lg:h-[510px] cursor-grab active:cursor-grabbing touch-pan-y block border-0 border-none outline-none"
         aria-label="Always-Active 3D Neural Intelligence Core Visualization"
       />
 
       {/* Floating Status Pill */}
-      <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 dark:bg-[#0F172A]/75 backdrop-blur-xl border-0 shadow-lg shadow-black/5 whitespace-nowrap">
+      <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 dark:bg-[#0F172A]/75 backdrop-blur-xl border-0 border-none shadow-lg shadow-black/5 whitespace-nowrap">
         <span className="relative flex h-2 w-2">
           <span
             className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-80 ${

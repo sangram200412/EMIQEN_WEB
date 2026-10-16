@@ -119,9 +119,9 @@ export const Hero: React.FC<HeroProps> = ({
 
         {/* Right Column: Always-Active 3D Visualization + Descriptive Explainer */}
         <div className="lg:col-span-5 flex flex-col space-y-4 w-full">
-          {/* Main 3D Canvas Card (Borderless Frosted Glass) */}
-          <div className="w-full relative glass-neural-card border-0 border-none rounded-2xl sm:rounded-3xl p-2 sm:p-4 shadow-2xl overflow-hidden transition-all duration-300">
-            <div className="absolute top-3 left-4 flex items-center gap-1.5 z-20 px-2.5 py-1 rounded-full bg-white/70 dark:bg-slate-900/60 backdrop-blur-md border-0 shadow-sm">
+          {/* Main 3D Canvas Card (Borderless Frosted Glass in Dark & Light Modes) */}
+          <div className="w-full relative glass-neural-card border-0 border-none rounded-2xl sm:rounded-3xl p-2 sm:p-4 overflow-hidden transition-all duration-300">
+            <div className="absolute top-3 left-4 flex items-center gap-1.5 z-20 px-2.5 py-1 rounded-full bg-white/70 dark:bg-slate-900/60 backdrop-blur-md border-0 border-none shadow-sm">
               <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400" />
               <span className="text-[10px] font-mono tracking-widest text-slate-700 dark:text-[#94A3B8] uppercase font-semibold">
                 NEURAL ORBITAL CORE
@@ -131,9 +131,9 @@ export const Hero: React.FC<HeroProps> = ({
             <NeuralCoreCanvas state={systemState} frequencyData={frequencyData} />
           </div>
 
-          {/* Description Card Below the 3D Image (Direct User Request) */}
-          <div className="p-4 sm:p-5 rounded-2xl glass-neural-card text-left space-y-2.5 transition-all duration-300">
-            <div className="flex items-center justify-between text-xs font-mono pb-2 border-b border-slate-200/60 dark:border-white/5">
+          {/* Description Card Below the 3D Image (Borderless Seamless Glass) */}
+          <div className="p-4 sm:p-5 rounded-2xl glass-neural-card border-0 border-none text-left space-y-2.5 transition-all duration-300">
+            <div className="flex items-center justify-between text-xs font-mono pb-2 border-0 border-none">
               <span className="flex items-center gap-1.5 text-[#0284C7] dark:text-[#38BDF8] font-semibold">
                 <Orbit className="w-3.5 h-3.5" />
                 About the 3D Neural Orbital Core
@@ -154,10 +154,10 @@ export const Hero: React.FC<HeroProps> = ({
                 Continuous 3D Spin • Drag / Touch to tilt
               </span>
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 text-[#0284C7] dark:text-[#38BDF8]">
+                <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-white/5 border-0 border-none text-[#0284C7] dark:text-[#38BDF8]">
                   &lt;250ms Turnaround
                 </span>
-                <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 text-[#7C3AED] dark:text-[#A78BFA]">
+                <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-white/5 border-0 border-none text-[#7C3AED] dark:text-[#A78BFA]">
                   Edge Quantized
                 </span>
               </div>
