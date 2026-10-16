@@ -214,37 +214,37 @@ export const ModelExplorer: React.FC = () => {
                 </p>
 
                 <div className="pt-2">
-                  <span className="text-xs font-mono text-[#9A83FF] uppercase tracking-wider block">
+                  <span className="text-xs font-mono text-[#0284C7] dark:text-[#9A83FF] uppercase tracking-wider block font-semibold">
                     Computational Mechanism:
                   </span>
-                  <p className="text-xs sm:text-sm font-mono text-[#F4F7FB] mt-1 bg-[#080B10] p-3 rounded-lg border border-white/5">
+                  <p className="text-xs sm:text-sm font-mono text-slate-800 dark:text-[#F4F7FB] mt-1 bg-slate-100 dark:bg-[#080B10] p-3 rounded-lg border border-slate-200 dark:border-white/5 leading-relaxed">
                     {activeStep.technical}
                   </p>
                 </div>
               </div>
 
               {/* Visual Tensor / Token Representation */}
-              <div className="lg:col-span-5 p-5 rounded-xl bg-[#080B10] border border-white/10 space-y-3 font-mono">
-                <div className="flex items-center justify-between text-xs text-[#A4ADBB] pb-2 border-b border-white/5">
-                  <span className="flex items-center gap-1.5 text-[#48E5F5]">
+              <div className="lg:col-span-5 p-5 rounded-xl bg-slate-50 dark:bg-[#080B10] border border-slate-200 dark:border-white/10 space-y-3 font-mono">
+                <div className="flex items-center justify-between text-xs text-slate-600 dark:text-[#A4ADBB] pb-2 border-b border-slate-200 dark:border-white/5">
+                  <span className="flex items-center gap-1.5 text-[#0284C7] dark:text-[#48E5F5] font-semibold">
                     <Binary className="w-3.5 h-3.5" />
                     Tensor Vector Stream
                   </span>
-                  <span className="text-[10px]">REPRESENTATION</span>
+                  <span className="text-[10px] text-slate-500 dark:text-[#A4ADBB]">REPRESENTATION</span>
                 </div>
 
                 <div className="flex flex-wrap gap-2 pt-2">
                   {activeStep.visualTokens.map((tok, i) => (
                     <span
                       key={i}
-                      className="px-2.5 py-1 rounded-md bg-[#0D1420] border border-[#9A83FF]/30 text-xs text-[#F4F7FB] shadow-sm hover:border-[#48E5F5] transition-colors"
+                      className="px-2.5 py-1 rounded-md bg-white dark:bg-[#0D1420] border border-slate-300 dark:border-[#9A83FF]/30 text-xs text-slate-800 dark:text-[#F4F7FB] shadow-xs hover:border-[#0284C7] dark:hover:border-[#48E5F5] transition-colors"
                     >
                       {tok}
                     </span>
                   ))}
                 </div>
 
-                <p className="text-[10px] text-[#A4ADBB] pt-3 border-t border-white/5 leading-relaxed">
+                <p className="text-[10px] text-slate-500 dark:text-[#A4ADBB] pt-3 border-t border-slate-200 dark:border-white/5 leading-relaxed">
                   Interactive representation for phase 0{activeStep.step}. Tokens flow directly into downstream multi-head layers.
                 </p>
               </div>

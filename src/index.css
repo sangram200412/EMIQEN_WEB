@@ -187,8 +187,15 @@ html.light section.bg-\[\#0D1420\]\/30 {
 }
 
 html.light .bg-theme-base,
+html.light .bg-\[\#080B10\],
 html.light div.bg-\[\#080B10\],
-html.light div.bg-\[\#0F172A\] {
+html.light p.bg-\[\#080B10\],
+html.light span.bg-\[\#080B10\],
+html.light pre.bg-\[\#080B10\],
+html.light code.bg-\[\#080B10\],
+html.light .bg-\[\#0F172A\],
+html.light div.bg-\[\#0F172A\],
+html.light p.bg-\[\#0F172A\] {
   background-color: #F8FAFC !important;
 }
 
@@ -205,7 +212,12 @@ html.light .bg-\[\#0F172A\]\/70 {
 }
 
 html.light .bg-\[\#0D1420\],
-html.light .bg-\[\#1E293B\] {
+html.light div.bg-\[\#0D1420\],
+html.light p.bg-\[\#0D1420\],
+html.light span.bg-\[\#0D1420\],
+html.light .bg-\[\#1E293B\],
+html.light div.bg-\[\#1E293B\],
+html.light p.bg-\[\#1E293B\] {
   background-color: #F1F5F9 !important;
 }
 
