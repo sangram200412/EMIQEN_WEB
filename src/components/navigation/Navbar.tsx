@@ -31,7 +31,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     { label: 'Voice Studio', id: 'playground' },
     { label: 'STT & TTS', id: 'voice-lab' },
     { label: 'Emotion AI', id: 'emotion-intelligence' },
-    { label: 'India Context', id: 'india-aware' },
     { label: 'SLM Core', id: 'model-intelligence' },
     { label: 'Architecture', id: 'architecture' },
     { label: 'Contact', id: 'contact' },

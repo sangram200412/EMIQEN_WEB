@@ -5,7 +5,6 @@ import { AgentPipeline } from './components/agent-pipeline/AgentPipeline';
 import { VoicePlayground } from './components/voice-playground/VoicePlayground';
 import { VoiceConverterLab } from './components/voice-lab/VoiceConverterLab';
 import { EmotionVisualizer } from './components/emotion-visualizer/EmotionVisualizer';
-import { IndiaAwareSection } from './components/india-aware/IndiaAwareSection';
 import { ModelExplorer } from './components/model-explorer/ModelExplorer';
 import { Capabilities } from './components/capabilities/Capabilities';
 import { ArchitectureExplorer } from './components/architecture/ArchitectureExplorer';
@@ -32,13 +31,16 @@ export function App() {
     setSystemState(st);
   }, []);
 
-  // Authentication & Chat Workspace state
+  // Authentication & Chat Workspace state (Strict Google/Gmail Account validation)
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(() => {
     const saved = localStorage.getItem('emiqen-user');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (parsed?.name === 'Sangram Sethi') {
+        const email = String(parsed?.email || '').trim().toLowerCase();
+        const isGoogleAccount = /^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@(gmail\.com|googlemail\.com)$/.test(email);
+        
+        if (parsed?.name === 'Sangram Sethi' || !isGoogleAccount) {
           localStorage.removeItem('emiqen-user');
           return null;
         }
@@ -151,9 +153,6 @@ export function App() {
 
         {/* Emotion Intelligence Visualizer */}
         <EmotionVisualizer />
-
-        {/* India-Aware Conversation Experience */}
-        <IndiaAwareSection />
 
         {/* Small Model Architecture Explorer */}
         <ModelExplorer />

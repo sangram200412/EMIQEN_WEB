@@ -71,14 +71,6 @@ export const Footer: React.FC<FooterProps> = ({ onScrollToSection }) => {
             </li>
             <li>
               <button
-                onClick={() => onScrollToSection('india-aware')}
-                className="hover:text-[#48E5F5] transition-colors cursor-pointer"
-              >
-                India Context & Multi-Lingual Intent
-              </button>
-            </li>
-            <li>
-              <button
                 onClick={() => onScrollToSection('model-intelligence')}
                 className="hover:text-[#48E5F5] transition-colors cursor-pointer"
               >
